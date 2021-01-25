@@ -25,9 +25,8 @@ module.exports = {
       imageUrl: {
         type: Sequelize.STRING
       },
-      likes: {
-        allowNull: false,
-        type: Sequelize.INTEGER
+      comments:{
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

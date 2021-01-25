@@ -7,6 +7,7 @@ const path = require('path');                     // Pour gérer nos images
 
 const userRoutes = require('./routes/user');      // Récupération des routes
 const publicationRoutes = require('./routes/publication');
+const commentairesRoutes = require('./routes/commentaire');
 
 require("./dbConfig");                          // Connection a la base de donnée
 
@@ -35,5 +36,6 @@ app.use(bodyParser.json());                     //Transforme le corp de la requ�
 app.use('/images', express.static(path.join(__dirname,'images')));
 app.use('/api/' ,userRoutes);
 app.use('/api/', publicationRoutes);
+app.use("/api/", commentairesRoutes)
 
 module.exports = app;

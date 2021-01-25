@@ -6,8 +6,7 @@ module.exports = (sequelize, DataTypes) => {
           title: DataTypes.STRING,
           userId: DataTypes.INTEGER,
           content: DataTypes.STRING,
-          imageUrl: DataTypes.STRING,
-          likes: DataTypes.INTEGER
+          imageUrl: DataTypes.STRING
       }, {}
   );
 

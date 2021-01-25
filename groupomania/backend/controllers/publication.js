@@ -1,4 +1,3 @@
-const { response } = require('express');
 const jwt = require('jsonwebtoken');                        //Package pour créer des jetons uniques
 const models = require('../models');
 
@@ -7,9 +6,9 @@ exports.getAllpublications = (req, res, next) => {
  
   models.Publication.findAll({ 
     order: [['createdAt', 'DESC']], 
-    // include:[
-    //   models.User
-    // ]
+    include:[
+      models.User
+    ]
   })
   .then((publications) => res.status(200).json(publications))
   .catch(error => res.status(400).json({ error: "gettallpublication", error: error }),console.log("erreur de getAllPublication"));                                  
@@ -20,7 +19,8 @@ exports.getAllpublications = (req, res, next) => {
 exports.getOnePublication = (req, res, next) => {
 
   models.Publication.findOne({
-    attributes: [ 'userId','content', 'title', 'imageUrl', "likes"],
+    // attributes: [ 'userId','content', 'title', 'imageUrl', "comments"],
+
   })
   .then((publication) => res.status(200).json( publication))
   .catch(error => res.status(400).json({ error: "getOnePublication", error: error }));   
@@ -61,7 +61,7 @@ exports.createMessage = (req, res, next) => {
         title : title,
         content : content,
         imageUrl : imageUrl,
-        likes : null,
+        comments: req.body.comments
       })
       .then((response) => res.status(200).json({ response : " Publication envoyée avec succé !" }))     
       .catch((err) => res.status(401).json({ err })) 

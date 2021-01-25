@@ -52,8 +52,7 @@ export default {
         title: "",
         content: "",
         imageUrl: null,
-        // blobImage: "",
-        likes: 0
+        // blobImage: ""
       }
     }
   },
@@ -64,7 +63,6 @@ export default {
 
       newPost.append("title", this.publication.title);
       newPost.append("content", this.publication.content);
-      newPost.append("likes", this.publication.likes);
       newPost.append("image", this.publication.imageUrl, this.publication.imageUrl.filename);
 
       if( !this.publication.content ) {
@@ -77,7 +75,7 @@ export default {
       .then(() => { this.publication ; console.log("Publication envoyée avec succée !")})
       .catch((erreur) => { console.log("erreur" + erreur);
       })
-      location.replace(location.origin);
+      // location.replace(location.origin);
     },
     uploadImage(e) {
       this.publication.imageUrl = e.target.files[0];
