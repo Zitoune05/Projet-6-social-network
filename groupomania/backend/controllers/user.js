@@ -95,12 +95,12 @@ exports.updateUser =  (req, res, next) => {
 
     models.User.findOne({ attributes: ['id'], where : { id: userId } })      
         .then(
-            models.User.update({ 
+            models.User.update({where : { id: userId } },{ 
             username: req.body.username,
             email: req.body.email,
             password: this.hash ,
             },
-            { where : { id: userId } })
+            )
             .then(() => res.status(200).json( response ))     
             .catch((err) => res.status(401).json({ err })))     // On affiche seulement les informations non sensibles
 
@@ -111,7 +111,7 @@ exports.updateUser =  (req, res, next) => {
 // Fonction deleteProfil
 exports.deleteUser =  (req, res, next) => {
     
-    models.User.destroy({ where: { id: Number(req.params.id) } })       // Destruction de l'utilisateur correspondant dans la base de données
+    models.User.destroy({ where: { id: req.params.id } })       // Destruction de l'utilisateur correspondant dans la base de données
         .then((response) => res.status(200).json({ response : " Compte supprimés de la basse de donnée" }))   
         .catch((err) => res.status(401).json({ err }));
 

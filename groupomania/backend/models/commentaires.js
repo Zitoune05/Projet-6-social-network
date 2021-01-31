@@ -1,18 +1,48 @@
-const { Model } = require("sequelize")
+'use strict';
 
 module.exports = (sequelize, DataTypes) => {
-    class Commentaire extends Model {}
-    Commentaire.init({
-        comments: {
-            type: DataTypes.STRING
-        }
-    }, 
-    {
-        sequelize,
-        modelName: "Commentaire"
-    })
-    return Commentaire
-}
+  const Commentaire = sequelize.define(
+    'Commentaire', {
+        comments: DataTypes.STRING,
+        userId: DataTypes.INTEGER,
+        publicationId: DataTypes.INTEGER,
+    }, {}
+  );
+
+  Commentaire.associate = function (models) {
+    models.Commentaire.belongsTo(models.Publication,{
+      foreignKey: {
+        allowNull: false
+      }
+  })
+  };
+
+  Commentaire.associate = function (models) {
+    models.Commentaire.belongsTo(models.User,{
+      foreignKey: {
+        allowNull: false
+      }
+  })
+  };
+
+  return Commentaire;
+};
+
+// const { Model } = require("sequelize")
+
+// module.exports = (sequelize, DataTypes) => {
+//     class Commentaire extends Model {}
+//     Commentaire.init({
+//         comments: {
+//             type: DataTypes.STRING
+//         }
+//     },
+//     {
+//         sequelize,
+//         modelName: "Commentaire"
+//     })
+//     return Commentaire
+// }
 
 // 'use strict';
 // module.exports = (sequelize, DataTypes) => {

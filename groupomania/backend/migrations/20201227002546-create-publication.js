@@ -9,12 +9,15 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       userId: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.INTEGER,
+        hooks:true,
         references: {
           model: 'Users',
           key: 'id'
-        }
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
       },
       title: {
         type: Sequelize.STRING
@@ -23,9 +26,6 @@ module.exports = {
         type: Sequelize.STRING
       },
       imageUrl: {
-        type: Sequelize.STRING
-      },
-      comments:{
         type: Sequelize.STRING
       },
       createdAt: {

@@ -9,20 +9,26 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       publicationId: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.INTEGER,
+        hooks:true,
         references: {
           model: 'Publications',
           key: 'id'
-        }
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
       },
       userId: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.INTEGER,
+        hooks:true,
         references: {
           model: 'Users',
           key: 'id'
-        }
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
       },
       comments: {
         type: Sequelize.STRING
@@ -38,6 +44,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('commentaires');
+    await queryInterface.dropTable('Commentaires');
   }
 };

@@ -8,7 +8,10 @@ const multer = require('../middleware/multer-config');
 
 // Création des routes pour les différentes requêtes 
 
-router.post('/commentaires',commentsCtrl.createComments);
-
+router.get('/commentaires/:id',commentsCtrl.findAllComments);
+router.post('/commentaire/:id',commentsCtrl.createComments);
+router.get('/commentaires/user/:id',commentsCtrl.getUserCommentaires);
+router.get('/commentaire/user/publication/:id',commentsCtrl.getOneComments);
+router.delete("/:id",auth, commentsCtrl.deleteComment),
 
 module.exports = router;

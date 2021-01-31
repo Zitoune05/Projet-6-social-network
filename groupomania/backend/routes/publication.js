@@ -8,8 +8,8 @@ const multer = require('../middleware/multer-config');
 
 // Création des routes pour les différentes requêtes 
 router.get('/publications', auth, publicationCtrl.getAllpublications);
-router.get('/publications/one/:id',publicationCtrl.getPublicationsUser)
-router.get('/publications/one', auth, publicationCtrl.getOnePublication);
+router.get('/publications/users/:id',publicationCtrl.getPublicationsUser)
+router.get('/publications/one/:id', auth, publicationCtrl.getOnePublication);
 router.post('/new', auth, multer, publicationCtrl.createMessage);
 router.put('/publications/:id', auth, multer, publicationCtrl.modifypublication);
 router.delete('/publications/:id', auth, publicationCtrl.deletePublication);

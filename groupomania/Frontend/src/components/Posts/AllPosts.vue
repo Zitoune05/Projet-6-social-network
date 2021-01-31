@@ -1,41 +1,42 @@
 
 <template>
-   <ul >
-        <li >
-            <b-card tag="article" class="shadow mt-5" v-for="publication in publications" :key="publication.id" >
+    <div>
+        <div id="accueil">
 
-                <template #header>
-                    <div class="headerPost">
-                        <b-avatar id='CardUserImage'></b-avatar>
-                        <h2>{{publication.User.username}}</h2> 
-                        <p> {{publication.createdAt}}</p>
-                    </div>
-                </template>
+        </div>
 
-                <b-card-text>
-                    <p>{{publication.title}}</p>
-                </b-card-text>
+        <b-card tag="article" class="shadow mt-5" v-for="publication in publications" :key="publication.id" >
 
-                <b-card id="CardImagePosted" >
-                    <img :src="publication.imageUrl" class="rounded mx-auto img-fluid "  alt="Responsive image" accept="image/*">
-                </b-card>
+            <template #header>
+                <div class="headerPost">
+                    <h2>{{publication.User.username}}</h2> 
+                    <p style="font-size: 12px;"> {{publication.createdAt}}</p>
+                </div>
+            </template>
 
-                <b-card-text>
-                    <p>{{publication.content}}</p>
-                </b-card-text>
+            <b-card-text>
+                <p>{{publication.title}}</p>
+            </b-card-text>
 
-                <hr>
-                <template #footer >
-                    <div class="d-flex justify-content-around">
-                        <button style="border: none"><b-icon icon="heart" style="color: red" class="mr-1"></b-icon></button>
-
-                    <a :href="'#/commentaires/'+publication.id" class="h6 small">Voir les commentaires</a>
-                    </div>
-                </template>
-
+            <b-card id="CardImagePosted" >
+                <img :src="publication.imageUrl" class="rounded mx-auto img-fluid "  alt="Responsive image" accept="image/*">
             </b-card>
-        </li>
-    </ul>
+
+            <b-card-text>
+                <p>{{publication.content}}</p>
+            </b-card-text>
+
+            <hr>
+            <template #footer >
+                <div class="d-flex justify-content-around">
+                <a :href="'#/commentaires/'+publication.id" class="h6 small">Commenter</a>
+
+                <a :href="'#/commentaires/post/'+publication.id" class="h6 small">Voir les commentaires</a>
+                </div>
+            </template>
+
+        </b-card>
+    </div>
 </template>
 
 
@@ -51,6 +52,12 @@ export default {
         return {
             publications: []
         }
+    },
+    beforeCreated(){
+        let accueil = document.getElementById('accueil');
+        let accueilTitle = document.createElement("h2");
+        accueilTitle.append(accueil);
+        accueilTitle.innerHTML = 'Bienvenue'
     },
     created () {
     axios

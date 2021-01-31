@@ -11,7 +11,11 @@ module.exports = (sequelize, DataTypes) => {
     );
 
     User.associate = function (models) {
-        models.User.hasMany(models.Publication);
+        models.User.hasMany(models.Publication,{ onDelete: 'cascade', onUpdate: 'cascade', hooks:true })
+    };
+
+    User.associate = function (models) {
+        models.User.hasMany(models.Commentaire,{ onDelete: 'cascade', onUpdate: 'cascade', hooks:true })
     };
 
     return User;

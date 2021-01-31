@@ -104,7 +104,7 @@ export default {
       alert('Les mots de passe saisis ne sont pas identiques !')
       }
       else{
-      axios.put("http://localhost:3000/api/users/:id" ,{
+      axios.put("http://localhost:3000/api/users" ,{
         email: this.email,
         username: this.username,
         password: this.password,
@@ -119,7 +119,7 @@ export default {
         })
         
       .catch((err) => console.log(err))
-      window.location = "http://localhost:8080/#/profil";
+      // window.location = "http://localhost:8080/#/profil";
       }
       
     } 

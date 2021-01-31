@@ -2,71 +2,78 @@ const models = require('../models');
 const Commentaires = models.Commentaire;
 const jwt = require('jsonwebtoken');                        //Package pour créer des jetons uniques
 
-// Creation de publication 
+
+// Tous les commentaire d'un message
+exports.findAllComments = (req, res, next) => {
+
+    Commentaires.findAll({
+        order: [['createdAt', 'DESC']],
+        where: {
+            publicationId: req.params.id
+        },
+        include:{ 
+           model: models.User,
+            attributes: ["username"]
+        },
+         
+    })
+    .then(comments => { res.status(200).json(comments), console.log(comments)})
+    .catch(error => res.status(400).json({ error }), console.log("erreur findAllComments"))
+}
+
+// Creation de publication
 exports.createComments = (req, res, next) => {
-  
-    const comment = new Commentaire(
-        {
-            userId: req.body.userId,
-            publicationId: req.body.publicationId,
+
+    const token = req.headers.authorization.split(" ")[1];          // Token attribué à l'utilisateur
+    const decodedToken = jwt.verify(token, process.env.TOKEN);      // Token comparé
+    
+    const comment = new Commentaires(
+        {   
+            UserId: decodedToken.userId,
+            publicationId: req.params.id,
             comments: req.body.comments
         }
     )
     comment.save()
-    .then(() => res.status(201).json({ message: "Commentaire ajouté avec succé !" }))
-    .catch(error => res.status(400).json({ error }))
-} 
-//     const token = req.headers.authorization.split(" ")[1];          // Token attribué à l'utilisateur
-//     const decodedToken = jwt.verify(token, process.env.TOKEN);      // Token comparé 
-//     const userId = decodedToken.userId; 
-    
-    
-//     // Params
-//     let comments = req.body.content;
-  
-//     if (comments == null) {
-//       return res.status(400).json({ 'error': 'Paramètre manquant ' });
-//     }
-  
-//     models.User.findOne({attributes: [ "id" ], where: { id: userId } })
-//         .then(
-//         models.Publication.findOne({ attributes: ['id'], where: { id: req.params.id } })
-//             .then(
-//                 models.Commentaire.create({
-//                     comments: req.body.comments,
-//                 })
-//                 .then((response) => res.status(200).json({ response : " Publication commentée avec succé !" }))
-//                 .catch((err) => res.status(401).json({ err }))
-//             )     
-//             .catch(() => res.status(500).json({ 'error': 'unable to verify publication' }))
-//         )
-//         .catch(() => res.status(500).json({ 'error': 'unable to verify user' }))
-  
-// };
-// // 
-// exports.createComments = (req, res, next) => {        
-  
-//     const token = req.headers.authorization.split(" ")[1];          // Token attribué à l'utilisateur
-//     const decodedToken = jwt.verify(token, process.env.TOKEN);      // Token comparé 
-//     const userId = decodedToken.userId; 
+    .then((comment) => res.status(201).json({comment}))
+    .catch(error => {res.status(400).json({ error }),console.log(error)})
+},
 
-//     // Params
-//     let comments = req.body.comments;
+// Récupère une publication pour l'afficher
+exports.getOneComments = (req, res, next) => {
+  Commentaires.findOne({
+    where: {
+      id: req.params.id
+    },
+    include: {
+      model: models.User,
+      attributes: ['username']
+    }
+  })
 
-//     if (comments == null) {
-//     return res.status(400).json({ 'error': 'Paramètre manquant ! ' });
-//     }
+  .then((response) => res.status(200).json( response))
+  .catch(error => res.status(400).json({ error}));   
+};
 
-//     models.Publication.findOne({ attributes: ['id'], where: { id: req.params.id } })
-//     .then(
-//         models.Commentaire.create({ 
-//             include:[
-//             models.User , models.publications
-//             ]
-//         })
-//         .then((commentaires) => res.status(200).json(commentaires))
-//         .catch(error => res.status(400).json({ error: "createComments", error: error }),console.log("erreur de createComments"))         
-//     )
-//     .catch(() => res.status(500).json({ 'error': 'unable to verify publication' }))
-                         
-// };
+// Récupère les Commentaires en fonction de l'utilisateur
+exports.getUserCommentaires = (req, res, next) => {
+
+    Commentaires.findAll({
+        order: [["id", "DESC"]],
+        where: { userId: req.params.id },
+        include: {
+        model: models.User,
+        attributes: ["username"] 
+    }
+    })
+    .then(response => res.status(200).json(response))
+    .catch(error => res.status(400).json({ error}));   
+};
+
+// Supprimer un commentaire
+exports.deleteComment = (req, res, next) => {
+    Commentaires.destroy({ where: { id: req.params.id }})
+        .then(() => res.status(200).json({ message: "Commentaire supprimé !" }))
+        .catch(error => res.status(400).json({ error }))
+}
+   

@@ -3,36 +3,47 @@ const models = require('../models');
 
 // Récupère toutes les publications dans la base de données pour les affichers
 exports.getAllpublications = (req, res, next) => {        
- 
+
   models.Publication.findAll({ 
     order: [['createdAt', 'DESC']], 
-    include:[
-      models.User
-    ]
+    include: {
+      model: models.User,
+      attributes: ['username']
+    }
   })
   .then((publications) => res.status(200).json(publications))
-  .catch(error => res.status(400).json({ error: "gettallpublication", error: error }),console.log("erreur de getAllPublication"));                                  
+  .catch(error => res.status(400).json({ error: "getAllpublication", error: error }),console.log("erreur de getAllPublication"));                                  
 };
 
 
 // Récupère une publication pour l'afficher
 exports.getOnePublication = (req, res, next) => {
-
   models.Publication.findOne({
-    // attributes: [ 'userId','content', 'title', 'imageUrl', "comments"],
-
+    where: {
+      id: req.params.id
+    },
+    include: {
+      model: models.User,
+      attributes: ['username']
+    }
   })
-  .then((publication) => res.status(200).json( publication))
-  .catch(error => res.status(400).json({ error: "getOnePublication", error: error }));   
+
+  .then((publication) => res.status(200).json( publication), console.log("getOnePublication"))
+  .catch(error => res.status(400).json({ error}));   
 };
 
 // Récupère une publication en fonction de l'utilisateur
 exports.getPublicationsUser = (req, res, next) => {
 
   models.Publication.findAll({
-    where: { id: req.params.id }
+    order: [["id", "DESC"]],
+    where: { userId: req.params.id },
+    include: {
+      model: models.User,
+      attributes: ["username"] 
+    }
   })
-  .then(response => res.status(200).json({response }))
+  .then(response => res.status(200).json(response))
   .catch(error => res.status(400).json({ error}));   
 };
 
@@ -90,58 +101,60 @@ exports.modifypublication = (req, res, next) => {
 // Pour supprimer une publication
 exports.deletePublication = (req, res, next) => {         
 
-  models.Publication.destroy({ where: { id: (req.params.id)  }})    // Id de la publication       
+  models.Publication.destroy({ 
+    where: { id: req.params.id }
+  })        
   .then((response) => res.status(200).json(response))   
   .catch((err) => res.status(401).json({ err }));
 };
    
-// Pour liker/disliker
-exports.likeCtrl = (req,res,next) => {              
-  const userCible = req.body.userId;                
-  if(req.body.like == 1){
-    models.Publication.findOne({ where: { id: messageId }}) 
-    .then(publication => {
-      publication.usersLiked.push(userCible);
-      publication.likes += 1;
-      publication.save();  
-      res.status(200).json({message : 'publication likée'})
-    })
-    .catch((error) => { res.status(400).json({error: error});})
-    .catch((error) => { res.status(500).json({error: error});});
-  } else if (req.body.like == 0 ){
-    models.Publication.findOne({ where: { id: messageId }}) 
-    .then(publication => { 
-              const index = publication.usersLiked.indexOf(userCible);            
-              if(publication.usersLiked.indexOf(userCible)>-1)
-              {
-                publication.usersLiked.splice(index,1);                               
+// // Pour liker/disliker
+// exports.likeCtrl = (req,res,next) => {              
+//   const userCible = req.body.userId;                
+//   if(req.body.like == 1){
+//     models.Publication.findOne({ where: { id: messageId }}) 
+//     .then(publication => {
+//       publication.usersLiked.push(userCible);
+//       publication.likes += 1;
+//       publication.save();  
+//       res.status(200).json({message : 'publication likée'})
+//     })
+//     .catch((error) => { res.status(400).json({error: error});})
+//     .catch((error) => { res.status(500).json({error: error});});
+//   } else if (req.body.like == 0 ){
+//     models.Publication.findOne({ where: { id: messageId }}) 
+//     .then(publication => { 
+//               const index = publication.usersLiked.indexOf(userCible);            
+//               if(publication.usersLiked.indexOf(userCible)>-1)
+//               {
+//                 publication.usersLiked.splice(index,1);                               
                                                                                 
-                publication.likes -= 1;    
-                                                      }      
-            else if(publication.usersDisliked.indexOf(userCible)>-1){         
-              publication.usersDisliked.splice(index,1); 
-              publication.dislikes -= 1;
-            }                                                                     
-            publication.save();
-            res.status(200).json({message : 'publication likée'})
-    })       
-    .catch((error) => { res.status(400).json({error: error});})
+//                 publication.likes -= 1;    
+//                                                       }      
+//             else if(publication.usersDisliked.indexOf(userCible)>-1){         
+//               publication.usersDisliked.splice(index,1); 
+//               publication.dislikes -= 1;
+//             }                                                                     
+//             publication.save();
+//             res.status(200).json({message : 'publication likée'})
+//     })       
+//     .catch((error) => { res.status(400).json({error: error});})
 
-    .catch((error) => { res.status(500).json({error: error});})
+//     .catch((error) => { res.status(500).json({error: error});})
           
-    }
-  else if(req.body.like == -1){
-      publication.findOne({_id: req.params.id}) 
-    .then(publication => {
-      publication.usersDisliked.push(userCible);
-      publication.dislikes += 1;
-      publication.save();
-      res.status(200).json({message : 'publication dislikée'})
-    })        
-    .catch((error) => { res.status(400).json({error: error});})
-    .catch((error) => { res.status(500).json({error: error});});
-    }
-};
+//     }
+//   else if(req.body.like == -1){
+//       publication.findOne({_id: req.params.id}) 
+//     .then(publication => {
+//       publication.usersDisliked.push(userCible);
+//       publication.dislikes += 1;
+//       publication.save();
+//       res.status(200).json({message : 'publication dislikée'})
+//     })        
+//     .catch((error) => { res.status(400).json({error: error});})
+//     .catch((error) => { res.status(500).json({error: error});});
+//     }
+// };
      
 
   

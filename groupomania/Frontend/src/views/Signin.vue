@@ -61,18 +61,22 @@ export default {
   },
   methods: {
     login: function()  {
-      if ( this.email !== null || this.password !== null) {
+      if ( this.email == null || this.password == null) {
+        alert('Votre email ou mot de passe est incorrect !')
+      } 
+      else {
         axios.post("http://localhost:3000/api/login",
           { email: this.email, password: this.password}
         )
         .then((response) => {
           localStorage.setItem("token", response.data.token)
           localStorage.setItem("userId", response.data.userId)
-          location.replace(location.origin)
+          location.replace("http://localhost:8080/#/accueil")
         })
-        .catch((error) => console.log(error))
-      } 
-      else {console.log("Erreur est survenue !")}
+        .catch(
+          (error) => console.log(error),
+        )
+      }
     },
   }
  

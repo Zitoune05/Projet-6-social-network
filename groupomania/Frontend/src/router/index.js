@@ -8,6 +8,10 @@ import MyAccount from '../views/MyAccount.vue'
 import updateUser from '../components/Account/update.vue'
 import CardPost from '../components/Posts/CardPost.vue'
 import createPost from '../components/Posts/CreatePost.vue'
+import commentaires from '../components/commentaires.vue'
+import commentairesPost from '../components/commentairesPost.vue'
+import commentairePost from '../components/commentairePost.vue'
+import commentaireUpdate from '../components/commentaireUpdate.vue'
 
 
 Vue.use(VueRouter)
@@ -54,6 +58,26 @@ const routes = [
     path: '/createpost',
     name: 'createPost',
     component: createPost
+  },
+  {
+    path: '/commentaires/:id',
+    name: 'commentairesPost',
+    component: commentairesPost
+  },
+  {
+    path: '/commentaire/update/:id',
+    name: 'commentaireUpdate',
+    component: commentaireUpdate
+  },
+  {
+    path: '/commentaire/post/:id',
+    name: 'commentairePost',
+    component: commentairePost
+  },
+  {
+    path: '/commentaires/post/:id',
+    name: 'commentaires',
+    component: commentaires
   }
   
 ]

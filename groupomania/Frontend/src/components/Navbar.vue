@@ -1,9 +1,3 @@
-<script>
-export default {
-    name: 'Navbar',
-}
-</script>
-
 <template>
     <header >
         <b-navbar  toggleable="sm" type="dark" class='Navbar shadow'>
@@ -29,7 +23,7 @@ export default {
                     <b-nav-item-dropdown right >
 
                         <!-- Using 'button-content' slot -->
-                        <template #button-content>
+                        <template #button-content >
                             <b-icon icon="chat-left-dots-fill" scale="1.2" variant="light"></b-icon>
                         </template>
 
@@ -68,9 +62,7 @@ export default {
                         </b-dropdown-item>
 
                         <b-dropdown-item>
-                            <router-link to="/">
-                                Se déconnecter
-                            </router-link>
+                            <a style="color:red;" @click="logout()"> Se déconnecter</a>
                         </b-dropdown-item>
 
                     </b-nav-item-dropdown>
@@ -81,6 +73,18 @@ export default {
     </header>
 </template>
 
+<script>
+export default {
+    name: 'Navbar',
+    methods:{
+        logout() {
+            location.replace(location.origin);
+            localStorage.clear();
+          
+        },
+    }
+}
+</script>
 
 
 <style >
