@@ -23,7 +23,7 @@ exports.signup = (req, res, next) => {
 
     // hash password
     bcrypt.hash(req.body.password, 10)           
-        .then( hash => {                        // On récupère le hash de mot de passe
+        .then( hash => {
             const newUser = new User({             // Création du nouvelle utilisateur  
             username: req.body.username,
             email: req.body.email,
@@ -63,7 +63,8 @@ exports.login = (req, res, next) => {
                             { expiresIn: '24h' },
                         ),
                         username: user.username,
-                        email: user.email
+                        email: user.email,
+                        isAdmin: user.isAdmin
                     });
                 })
                 .catch(error => res.status(500).json({ error : "erreur serveur"}));   //Erreur serveur
@@ -83,29 +84,41 @@ exports.userProfil = (req, res, next) => {
         .catch((err) => res.status(401).json({ err }));
 };   
 
+// Récupère toute les utilisateurs dans la base de données pour les affichers
+exports.getAllUsers = (req, res, next) => {        
+
+    models.User.findAll({ 
+      order: [['createdAt', 'DESC']], 
+    })
+    .then((User) => res.status(200).json(User))
+    .catch(error => res.status(400).json( error ));                                  
+};
+
 // Fonction updateProfil
 exports.updateUser =  (req, res, next) => {
 
     const token = req.headers.authorization.split(" ")[1];          // Token attribué à l'utilisateur
     const decodedToken = jwt.verify(token, process.env.TOKEN);      // Token comparé 
     const userId = decodedToken.userId; 
-    let passwords = req.body.password
-    bcrypt.hash(passwords, 10) 
-    .then((hash) => { passwords = hash})
+console.log(req.body.password)
+    bcrypt.hash(req.body.password, 10) 
+    .then(hash=> { 
+        
+        
+        console.log("=======================================")
+        console.log(hash)
+        models.User.update({ 
+        username: req.body.username,
+        email: req.body.email,
+        password: hash ,
+        },{ attributes: ['id'], where : { id: userId } },
+        )
+        .then((response) => res.status(200).json( response ))     
+        .catch((err) => res.status(401).json({ err }))
+    }
+    // On affiche seulement les informations non sensibles
 
-    models.User.findOne({ attributes: ['id'], where : { id: userId } })      
-        .then(
-            models.User.update({where : { id: userId } },{ 
-            username: req.body.username,
-            email: req.body.email,
-            password: this.hash ,
-            },
-            )
-            .then(() => res.status(200).json( response ))     
-            .catch((err) => res.status(401).json({ err })))     // On affiche seulement les informations non sensibles
-
-        .catch((err) => res.status(401).json({ err }));
-};
+    )};
 
 
 // Fonction deleteProfil

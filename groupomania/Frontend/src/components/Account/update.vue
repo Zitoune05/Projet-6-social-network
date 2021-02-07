@@ -96,6 +96,13 @@ export default {
     //Fonction qui permet à l'utilisateur de modifier ses informationss
     updateUser: function () {
       
+      // const updateUser = new FormData()
+
+      // updateUser.append("email", this.email);
+      // updateUser.append("username", this.username);
+      // updateUser.append("password", this.password);
+
+
       if (this.email == "" || this.username == "" || this.password == ""  ){
       alert('Champs manquants')}
 
@@ -104,22 +111,17 @@ export default {
       alert('Les mots de passe saisis ne sont pas identiques !')
       }
       else{
-      axios.put("http://localhost:3000/api/users" ,{
-        email: this.email,
-        username: this.username,
-        password: this.password,
-      },
-          { headers: { Authorization: "Bearer " + localStorage.token }}
+      axios.put("http://localhost:3000/api/users" , {"email":this.email,"username":this.username,"password":this.password},
+        { headers: { Authorization: "Bearer " + localStorage.token }}
       )
       .then((user) => {
-        alert('informations modifiées avec succée !')
         this.username = user.data.username
         this.email = user.data.email
         this.password = user.data.password
         })
+        .$router.push("http://localhost:8080/#/profil")
         
       .catch((err) => console.log(err))
-      // window.location = "http://localhost:8080/#/profil";
       }
       
     } 

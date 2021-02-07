@@ -6,7 +6,7 @@ import Signup from '../views/Signup.vue'
 import Signin from '../views/Signin.vue'
 import MyAccount from '../views/MyAccount.vue'
 import updateUser from '../components/Account/update.vue'
-import CardPost from '../components/Posts/CardPost.vue'
+// import CardPost from '../components/Posts/CardPost.vue'
 import createPost from '../components/Posts/CreatePost.vue'
 import commentaires from '../components/commentaires.vue'
 import commentairesPost from '../components/commentairesPost.vue'
@@ -19,6 +19,11 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
+    name: 'NewUser',
+    component: Signin
+  },
+  {
+    path: '/accueil',
     name: 'Home',
     component: Home
   },
@@ -49,11 +54,11 @@ const routes = [
     name: 'contact',
     component: Contact
   },
-  {
-    path: '/mur',
-    name: 'CardPost',
-    component: CardPost
-  },
+  // {
+  //   path: '/mur',
+  //   name: 'CardPost',
+  //   component: CardPost
+  // },
   {
     path: '/createpost',
     name: 'createPost',

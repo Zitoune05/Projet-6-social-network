@@ -1,12 +1,14 @@
 <template>
     
-        <div>
+        <b-form method="POST" @submit.prevent = "updatePublication" class="mt-4 col-md-7 col-lg-6 mx-auto" >
+            
+
             <b-card tag="article" class="shadow mt-5" >
 
                 <template #header>
                     <div class="headerPost">
                         <h2>{{onePublication.User.username}}</h2> 
-                        <p style="font-size: 12px;"> publié le {{onePublication.createdAt}}</p>
+                        <p style="font-size: 12px;">Publié le {{onePublication.createdAt.slice(0,10).split('-').reverse().join('/') + ' à ' + onePublication.createdAt.slice(11,16)}}</p>
                     </div>
                 </template>
 
@@ -50,18 +52,28 @@
                 </b-card-text>
                 
                 <hr/>
-            <!-- Bouton Suppression  -->
-            <div id="updateDelete">
-            
-                <b-icon @click="updatePublication()" icon="pencil-fill" style="width:16px; color:green"></b-icon>
-            
-               <b-icon @click="deletePublication()" icon="trash"  style="width:16px; color:red"></b-icon>
+                <!-- Bouton Suppression  -->
+                <div id="updateDelete">
+                    <b-button 
+                        type="submit"
+                        variant="outline-primary"
+                    >
+                        modifier
+                    </b-button>
+                
+                    <!-- <b-icon  icon="pencil-fill" style="width:16px; color:green"></b-icon> -->
+                
+                    <!-- <b-icon @click="deletePublication()" icon="trash"  style="width:16px; color:red"></b-icon> -->
 
-            </div>
+                </div>
+
+                <div class="d-flex justify-content-end" >
+                    <b-icon @click="deletePublication()"  icon="trash"  style="width:13px; color:red"></b-icon>
+                </div>
 
             </b-card>
 
-        </div>
+        </b-form>
         
 </template>
 
@@ -80,6 +92,7 @@ export default {
                 title: "",
                 content: "",
                 imageUrl: null,
+                imageFilename: ""
             }
         }
     },
@@ -91,19 +104,6 @@ export default {
       .catch(error => {console.log(error)})
     },
     methods: {
-        addNewComment() {
-
-            if( !this.comments ) {
-                alert('Champ requis !')
-            }
-
-            axios.post("http://localhost:3000/api/commentaire/" + this.$route.params.id, {"comments": this.comments} ,
-                { headers: { Authorization: "Bearer " + localStorage.token }}
-            )
-            .then(() => { this.comments ; console.log("okk1")})
-            .catch((erreur) => { console.log("erreur" + erreur);
-            })
-        },
         deletePublication(){
             axios.delete("http://localhost:3000/api/publications/" + this.$route.params.id, {headers: { Authorization: "Bearer " + localStorage.token }})
             .then(()=> {
@@ -116,11 +116,15 @@ export default {
 
             updatePost.append("title", this.publication.title);
             updatePost.append("content", this.publication.content);
-            updatePost.append("image", this.publication.imageUrl, this.publication.imageUrl.filename);
 
+            if(this.imageUrl !== null){
+            updatePost.append("image", this.publication.imageUrl, this.publication.imageUrl.filename);
+            }
             axios.put("http://localhost:3000/api/publications/" + this.$route.params.id, updatePost, {headers: { Authorization: "Bearer " + localStorage.token }})
-            .then(()=> {
-                location.replace("http://localhost:8080/#/profil");
+            .then((publication)=> {
+                this.title = publication.data.username
+                this.content = publication.data.email
+                this.imageUrl = publication.data.imageUrl
             })
             .catch((error) => error)
         },

@@ -6,7 +6,7 @@
                 <template #header>
                     <div class="headerPost">
                         <h2>{{onePublication.User.username}}</h2> 
-                        <p style="font-size:12px;"> publié le {{onePublication.createdAt}}</p>
+                        <p style="font-size:12px;">Publié le {{onePublication.createdAt.slice(0,10).split('-').reverse().join('/') + ' à ' + onePublication.createdAt.slice(11,16)}}</p>
                     </div>
                 </template>
 
@@ -24,27 +24,17 @@
 
             </b-card>
 
-            <b-card tag="article" class="shadow mt-5">
+            <b-card tag="article" class="shadow mt-1">
             
-                <b-form  method="POST" @submit.prevent="addNewComment()" enctype="multipart/form-data" >
+                <b-form  method="POST" @submit.prevent="addNewComment()" enctype="multipart/form-data"  >
 
                     <b-card-text>
                         <textarea class="form-control" v-model="comments" id="comments" name="comments" rows="10" placeholder="Votre commentaire ici..." required ></textarea>
                     </b-card-text>
 
-
-                    <div class="row justify-content-around">
-
-                        <a data-dismiss="modal" class="btn btn-secondary btn-block col-5">
-                            Annuler
-                        </a>
-                    
-                        <b-button type="submit" class="btn btn-success btn-block col-5">
-                            Valider
-                        </b-button>
-
-                    </div>
-
+                    <b-button type="submit" class="btn btn-success">
+                        Commenter
+                    </b-button>
 
                 </b-form>
 
@@ -84,7 +74,7 @@ export default {
             axios.post("http://localhost:3000/api/commentaire/" + this.$route.params.id, {"comments": this.comments} ,
                 { headers: { Authorization: "Bearer " + localStorage.token }}
             )
-            .then(() => { this.comments ; console.log("okk1")})
+            .then(() =>  this.comments, location.replace("http://localhost:8080/#/profil"))
             .catch((erreur) => { console.log("erreur" + erreur);
             })
         }

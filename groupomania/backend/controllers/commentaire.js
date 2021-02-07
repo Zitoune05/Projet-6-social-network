@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');                        //Package pour crée
 // Tous les commentaire d'un message
 exports.findAllComments = (req, res, next) => {
 
+
     Commentaires.findAll({
         order: [['createdAt', 'DESC']],
         where: {
@@ -69,6 +70,15 @@ exports.getUserCommentaires = (req, res, next) => {
     .then(response => res.status(200).json(response))
     .catch(error => res.status(400).json({ error}));   
 };
+
+// modifier un commentaire
+exports.updateComment = (req, res, next) => {
+    Commentaires.update({comments: req.body.comments},
+        { where: { id: req.params.id }})
+        .then(() => res.status(200).json({ message: "Commentaire modifié !" }))
+        .catch(error => res.status(400).json({ error }))
+}
+
 
 // Supprimer un commentaire
 exports.deleteComment = (req, res, next) => {

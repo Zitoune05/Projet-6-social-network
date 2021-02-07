@@ -1,12 +1,12 @@
 <template>
     <div>
-        <h1>Voici les commentaires de la publication</h1>
+        <h1 class="mt-3" id="titleComment">Liste des commentaires</h1>
         <b-card tag="article" class="shadow mt-5" v-for="commentaire in commentaires" :key="commentaire.id" >
 
             <template #header>
                 <div class="headerPost">
                     <h3>{{commentaire.User.username}}</h3>
-                    <p> {{commentaire.createdAt}}</p>
+                    <p>Publié le {{commentaire.createdAt.slice(0,10).split('-').reverse().join('/') + ' à ' + commentaire.createdAt.slice(11,16)}}</p>
                 </div>
             </template>
 
@@ -33,10 +33,11 @@ export default {
     created () {
     axios
       .get('http://localhost:3000/api/commentaires/' + this.$route.params.id,
-      { headers: { Authorization: "Bearer " + localStorage.token }})
+        { headers: { Authorization: "Bearer " + localStorage.token }})
       .then(response => { this.commentaires = response.data})
       .catch(error => {console.log(error)})
     },
+    
 
 };
 </script>
@@ -45,4 +46,9 @@ export default {
     body {
         background-color: #091F43
     }
+    @media screen and (max-width: 600px) {
+        #titleComment{
+            font-size: 20px;
+    }
+}
 </style>

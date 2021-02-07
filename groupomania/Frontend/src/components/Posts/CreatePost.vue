@@ -72,10 +72,9 @@ export default {
       axios.post("http://localhost:3000/api/new",  newPost,
         { headers: { Authorization: "Bearer " + localStorage.token }}
       )
-      .then(() => { this.publication ; console.log("Publication envoyée avec succée !")})
-      .catch((erreur) => { console.log("erreur" + erreur);
-      })
-      // location.replace(location.origin);
+      .then(() => { this.publication ; location.replace("http://localhost:8080/#/accueil");})
+      .catch((erreur) => ("erreur" + erreur))
+      // 
     },
     uploadImage(e) {
       this.publication.imageUrl = e.target.files[0];

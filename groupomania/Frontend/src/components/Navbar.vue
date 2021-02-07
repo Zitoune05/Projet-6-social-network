@@ -2,23 +2,32 @@
     <header >
         <b-navbar  toggleable="sm" type="dark" class='Navbar shadow'>
 
-            <b-navbar-brand>
-                <router-link to="/">
-                    <img
-                        id="Logo"
-                        alt="logo de l'entreprise"
-                        src="../assets/icon-left-font-monochrome-white.svg"
-                        width="200px"
-                    />
+            <b-navbar-brand v-show="disconnected()">
+
+                <router-link to="/accueil">
+
+                    <img id="Logo" alt="logo de l'entreprise" src="../assets/icon-left-font-monochrome-white.svg" width="200px"/>
+
                 </router-link>
+                
+            </b-navbar-brand>
+            
+            <b-navbar-brand  v-if="connected()" class="mx-auto">
+
+                <router-link to="/">
+
+                    <img id="Logo" alt="logo de l'entreprise" src="../assets/icon-left-font-monochrome-white.svg" width="200px"/>
+
+                </router-link>
+
             </b-navbar-brand>
 
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
-            <b-collapse id="nav-collapse" is-nav>
+            <b-collapse id="nav-collapse" is-nav >
                 
                 <!-- Right aligned nav items -->
-                <b-navbar-nav class="ml-auto"> 
+                <b-navbar-nav class="ml-auto" v-if="disconnected()"> 
 
                     <b-nav-item-dropdown right >
 
@@ -44,25 +53,19 @@
                         </template>
 
                         <b-dropdown-item>
-                            <router-link to="/signup">
-                                S'inscrire
-                            </router-link>
-                        </b-dropdown-item>
-
-                        <b-dropdown-item>
                             <router-link to="/profil">
                                 Mon Profil
                             </router-link>
                         </b-dropdown-item>
 
-                        <b-dropdown-item>
+                        <b-dropdown-item v-if="connected()">
                             <router-link to="/login">
                                 Se connecter
                             </router-link>
                         </b-dropdown-item>
 
-                        <b-dropdown-item>
-                            <a style="color:red;" @click="logout()"> Se déconnecter</a>
+                        <b-dropdown-item >
+                            <a id="logout" @click="logout()"> Se déconnecter</a>
                         </b-dropdown-item>
 
                     </b-nav-item-dropdown>
@@ -76,12 +79,32 @@
 <script>
 export default {
     name: 'Navbar',
+   
     methods:{
         logout() {
             location.replace(location.origin);
             localStorage.clear();
           
         },
+        connected() {
+            let connected = localStorage.getItem('userId');
+            if( connected > 0 ) {
+
+                return false;
+            }
+            else{
+                return true;
+            }
+        },
+        disconnected() {
+            let connected = localStorage.getItem('userId');
+            if( connected > 0 ) {
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
     }
 }
 </script>
@@ -92,5 +115,8 @@ export default {
         background-color: rgb(97, 135, 170);
         padding: 1%;
         color: white;
+    }
+    #logout{
+        color: red;
     }
 </style>
