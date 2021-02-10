@@ -12,21 +12,6 @@
                     </div>
                 </template>
 
-                <b-card-text>
-
-                    <p>{{onePublication.title}}</p>
-
-                    <b-form-input
-                        v-model="publication.title"
-                        type="text"
-                        id="feedback-title"
-                        style="max-width: 300px; margin: auto;"
-                        placeholder="Titre"
-                    >
-                    </b-form-input>
-
-                </b-card-text>
-
                 <hr/>
                 <b-card id="CardImagePosted" >
                     <img :src="onePublication.imageUrl" class="rounded mx-auto img-fluid "  alt="Responsive image" accept="image/*">
@@ -89,7 +74,6 @@ export default {
             comments:"",
             onePublication: [],
             publication:{
-                title: "",
                 content: "",
                 imageUrl: null,
                 imageFilename: ""
@@ -114,7 +98,6 @@ export default {
         updatePublication(){
             const updatePost = new FormData();
 
-            updatePost.append("title", this.publication.title);
             updatePost.append("content", this.publication.content);
 
             if(this.imageUrl !== null){
@@ -122,9 +105,9 @@ export default {
             }
             axios.put("http://localhost:3000/api/publications/" + this.$route.params.id, updatePost, {headers: { Authorization: "Bearer " + localStorage.token }})
             .then((publication)=> {
-                this.title = publication.data.username
-                this.content = publication.data.email
+                this.content = publication.data.content
                 this.imageUrl = publication.data.imageUrl
+                location.replace("http://localhost:8080/#/profil")
             })
             .catch((error) => error)
         },

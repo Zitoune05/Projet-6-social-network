@@ -4,17 +4,6 @@
 
     <b-form method="POST" @submit.prevent = "createPost" enctype = " multipart / form-data ">
 
-      <section class="mt-3">
-          <b-form-input
-            type="text"
-            id="feedback-title"
-            style="max-width: 300px; margin: auto;"
-            v-model="publication.title"
-            placeholder="Titre"
-          >
-          </b-form-input>
-      </section>
-
       <section>
           <textarea
             class="form-control"
@@ -49,7 +38,6 @@ export default {
   data() {
     return {
       publication:{
-        title: "",
         content: "",
         imageUrl: null,
         // blobImage: ""
@@ -61,7 +49,6 @@ export default {
 
       const newPost = new FormData();
 
-      newPost.append("title", this.publication.title);
       newPost.append("content", this.publication.content);
       newPost.append("image", this.publication.imageUrl, this.publication.imageUrl.filename);
 

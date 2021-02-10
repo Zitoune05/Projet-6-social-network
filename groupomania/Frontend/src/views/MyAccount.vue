@@ -111,7 +111,7 @@
         <section v-if="commentCompte()">
 
             <!-- H2 commentaires -->
-            <h2 class="sectionTitle">Vous avez publié {{ commentaires.length }} commentaire </h2>
+            <h2 class="sectionTitle" style="text-align: center">Vous avez publié {{ commentaires.length }} commentaire </h2>
 
             <!-- Card Commentaire -->
             <b-card tag="article" class="shadow mt-5 mx-auto "  v-for="commentaire in commentaires" :key="commentaire.id" >

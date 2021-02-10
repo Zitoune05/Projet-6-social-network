@@ -34,7 +34,7 @@ export default {
     axios
       .get('http://localhost:3000/api/commentaires/' + this.$route.params.id,
         { headers: { Authorization: "Bearer " + localStorage.token }})
-      .then(response => { this.commentaires = response.data})
+      .then(response => { this.commentaires = response.data,location.replace("http://localhost:8080/#/profil")})
       .catch(error => {console.log(error)})
     },
     

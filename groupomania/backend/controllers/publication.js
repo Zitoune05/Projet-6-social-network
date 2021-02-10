@@ -56,7 +56,6 @@ exports.createMessage = (req, res, next) => {
   const userId = decodedToken.userId; 
 
   // Params
-  let title = req.body.title;
   let content = req.body.content;
   let imageUrl = "";
   if (req.file) { imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`}
@@ -69,7 +68,6 @@ exports.createMessage = (req, res, next) => {
     .then(
       models.Publication.create({
         UserId : userId,
-        title : title,
         content : content,
         imageUrl : imageUrl,
         comments: req.body.comments
@@ -87,7 +85,6 @@ exports.modifypublication = (req, res, next) => {
   models.Publication.findOne({ attributes: ['id'], where: { id: req.params.id } })
     .then(
       models.Publication.update({
-        title : req.body.title,
         content : req.body.content,
         imageUrl : `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
       },

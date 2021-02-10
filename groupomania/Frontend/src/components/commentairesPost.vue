@@ -10,10 +10,6 @@
                     </div>
                 </template>
 
-                <b-card-text>
-                    <p>{{onePublication.title}}</p>
-                </b-card-text>
-
                 <b-card id="CardImagePosted" >
                     <img :src="onePublication.imageUrl" class="rounded mx-auto img-fluid "  alt="Responsive image" accept="image/*">
                 </b-card>

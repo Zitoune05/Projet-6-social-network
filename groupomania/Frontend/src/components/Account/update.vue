@@ -118,8 +118,9 @@ export default {
         this.username = user.data.username
         this.email = user.data.email
         this.password = user.data.password
+        location.replace("http://localhost:8080/#/profil")
         })
-        .$router.push("http://localhost:8080/#/profil")
+        
         
       .catch((err) => console.log(err))
       }

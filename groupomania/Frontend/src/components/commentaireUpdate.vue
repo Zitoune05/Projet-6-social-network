@@ -14,7 +14,7 @@
                 </b-card-text>
 
                 <b-card-text>
-                    <textarea class="form-control" v-model="NewComments" id="comments" name="comments" rows="10" placeholder="Votre commentaire ..." required ></textarea>
+                    <textarea class="form-control" v-model="comments" id="comments" name="comments" rows="10" placeholder="Votre commentaire ..." required ></textarea>
                 </b-card-text>
             
             <hr>
@@ -42,7 +42,6 @@ export default {
     data() {
         return{
             comments:"",
-            NewComments: "",
             onComments: []
         }
     },
@@ -56,17 +55,16 @@ export default {
     methods: {
         deleteComment(){
             axios.delete("http://localhost:3000/api/" + this.$route.params.id, {headers: { Authorization: "Bearer " + localStorage.token }})
-            .then(()=> {
-                location.replace("http://localhost:8080/#/profil");
-            })
+            .then(location.replace("http://localhost:8080/#/profil"))
             .catch((error) => error)
         },
         updateComment(){
 
-            axios.put("http://localhost:3000/api/commentaire/" + this.$route.params.id, {"comments": this.NewComments} ,
+            axios.put("http://localhost:3000/api/commentair/" + this.$route.params.id, {"comments": this.comments} ,
                 { headers: { Authorization: "Bearer " + localStorage.token }}
             )
-            .then((res) => {this.NewComments = res.data.comments})
+            .then((res) => 
+                {this.comments = res.data.comments})
             .catch((erreur) => erreur
             )
         }
