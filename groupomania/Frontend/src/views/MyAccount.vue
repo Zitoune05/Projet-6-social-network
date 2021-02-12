@@ -63,22 +63,15 @@
                     </div>
                 </template>
 
-                <!-- Title publication -->
+                 <!-- Contenu de la publication -->
                 <b-card-text>
-                    <p>{{publication.title}}</p>
+                    <p>{{publication.content}}</p>
                 </b-card-text>
 
                 <!-- Image a charger -->
                 <b-card id="CardImagePosted" >
                     <img :src="publication.imageUrl" class="rounded mx-auto img-fluid mw-25"  alt="Image responsive" accept="image/*">
                 </b-card>
-
-                <!-- Contenu de la publication -->
-                <b-card-text>
-                    <p>{{publication.content}}</p>
-                </b-card-text>
-
-                <hr>
 
                 <!-- Footer -- Liens pour modifier/supprimer , commenter ou voir les commentaires de la publciation -->
                 <template #footer >
@@ -93,7 +86,7 @@
 
                     </div>
 
-                    <div>
+                    <div class="d-flex justify-content-around">
 
                         <!-- lien pour modifier/supprimer la publication -->
                         <a :href="'#/commentaire/post/'+publication.id" class="h6 small">Modifier</a>

@@ -35,14 +35,9 @@
                         <template #button-content >
                             <b-icon icon="chat-left-dots-fill" scale="1.2" variant="light"></b-icon>
                         </template>
-
-                         <b-dropdown-item>
-                            <router-link to="/createpost">
-                                Create post
-                            </router-link>
-                        </b-dropdown-item>
-
-
+                        
+                        <a :href="'#/createpost'" >Create publication</a>
+                        
                     </b-nav-item-dropdown>
 
                     <b-nav-item-dropdown right>
@@ -112,7 +107,7 @@ export default {
 
 <style >
     .Navbar {
-        background-color: rgb(97, 135, 170);
+        background-color: #38AFFF;
         padding: 1%;
         color: white;
     }

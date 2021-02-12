@@ -31,7 +31,7 @@
                         v-model="publication.content"
                         id="text-password"
                         rows="6"
-                        placeholder="Écrivez votre premier message !"
+                        placeholder="Votre message..."
                         >
                     </textarea>
                 </b-card-text>

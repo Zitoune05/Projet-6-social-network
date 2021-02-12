@@ -19,10 +19,14 @@
             
             <hr>
 
-            <div >
-                <b-icon @click="updateComment()" icon="pencil-fill" class="mr-5" style="width:16px; color:yellow"></b-icon>
+            <div class="d-flex justify-content-between w-50 m-auto" >
+                <b-button @click="updateComment()"  v-b-tooltip.hover title="Modifier" variant="outline-warning">
+                    <b-icon icon="pencil-fill" ></b-icon>
+                </b-button>
                 
-                <b-icon @click="deleteComment()" icon="trash"  class="ml-5" style="width:16px; color:red"></b-icon>
+                <b-button @click="deleteComment()"  variant="outline-danger" v-b-tooltip.hover title="Supprimer mon compte">
+                    <b-icon icon="trash"></b-icon>
+                </b-button>
 
             </div>
 

@@ -1,6 +1,6 @@
 <template>
     
-        <div>
+        <div  class="col-md-6 mx-auto mt-5">
             <b-card tag="article" class="shadow mt-5" >
 
                 <template #header>
