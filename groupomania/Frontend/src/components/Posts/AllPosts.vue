@@ -1,37 +1,49 @@
 
-<template>
-    <div>
-        <div id="accueil">
+<template >
 
-        </div>
+    
+    <div class="col-md-5 mx-auto mt-5">
 
-        <b-card tag="article" class="shadow mt-5" v-for="publication in publications" :key="publication.id" >
+        <!-- one-publication -->
+        <b-card tag="article" class="shadow mb-4" v-for="publication in publications" :key="publication.id" id="card">
 
-            <template #header>
-                <div class="headerPost">
-                    <h2>{{publication.User.username}}</h2> 
-                    <p style="font-size: 12px;"> {{publication.createdAt}}</p>
-                </div>
-            </template>
+            <!-- header -->
+            <div class="headerPost">
 
-            <b-card-text>
-                <p>{{publication.title}}</p>
-            </b-card-text>
+                <!-- publication username -->
+                <h2>{{publication.User.username}}</h2>
 
-            <b-card id="CardImagePosted" >
-                <img :src="publication.imageUrl" class="rounded mx-auto img-fluid "  alt="Responsive image" accept="image/*">
-            </b-card>
-
-            <b-card-text>
-                <p>{{publication.content}}</p>
-            </b-card-text>
+                <!-- publication créée le ... -->
+                <p > {{publication.createdAt.slice(0,10).split('-').reverse().join('/') + ' à ' + publication.createdAt.slice(11,16)}}</p>
+            </div>
 
             <hr>
-            <template #footer >
-                <div class="d-flex justify-content-around">
-                <a :href="'#/commentaires/'+publication.id" class="h6 small">Commenter</a>
 
-                <a :href="'#/commentaires/post/'+publication.id" class="h6 small">Voir les commentaires</a>
+            <!-- si l'utilisateur est admin alors afficher -->
+            <div class="d-flex justify-content-end" v-if="admin()">
+
+                <!-- lien pour modifier la publication en tant qu'admin  -->
+                <a :href="'#/commentaire/post/'+publication.id"><b-icon  id="AdminUpdatePublication"   icon="pencil-fill" ></b-icon> </a>
+
+            </div>
+
+            <!-- contenu de la publication -->
+            <p>{{publication.content}}</p>
+            
+            <!-- image de la publication -->
+            <img :src="publication.imageUrl" class="rounded img-fluid d-flex ml-auto mr-auto " id="imgResponsive" alt="Responsive image" accept="image/*">
+            
+            <!-- footer de la publication  -->
+            <template #footer>
+
+                <div class="d-flex justify-content-around" >
+
+                    <!-- lien pour commenter la publication -->
+                   <a class="pl-1 pr-1"  :href="'#/commentaires/'+publication.id"><b-icon icon="chat-left-dots" class="mr-1"></b-icon>Commenter</a>
+                       
+                    <!-- lien pour voir les commentaires -->
+                    <a variant="outline-primary" :href="'#/commentaires/post/'+publication.id" >Les commentaires</a>
+
                 </div>
             </template>
 
@@ -50,7 +62,9 @@ export default {
 
     data() {
         return {
-            publications: []
+
+            // tableau de publication
+            publications: [],
         }
     },
     beforeCreated(){
@@ -58,18 +72,51 @@ export default {
         let accueilTitle = document.createElement("h2");
         accueilTitle.append(accueil);
         accueilTitle.innerHTML = 'Bienvenue'
+        
+
     },
-    created () {
+    created() {
+
+    // requete pour afficher toute les publications
     axios
       .get('http://localhost:3000/api/publications',
       { headers: { Authorization: "Bearer " + localStorage.token }})
       .then(response => { this.publications = response.data})
-      .catch(error => {console.log(error)})
+      .catch(error => (error))
     },
+    
+    
+    methods: {
+
+        // méthode pour verifier si l'utilisateur est admin
+        admin(){
+            if(localStorage.getItem('isAdmin') == "true") {
+                return true
+            }else {
+                return false
+            }
+        },
+    
+    }
 
 };
 </script>
 
 <style >
+.headerPost p{            /** Titre h2 de chaque section  */
+    font-size: 10px;
 
+}
+
+/* couleur de l'icon update */
+#AdminUpdatePublication{
+    color: red;
+}
+
+@media (max-width: 500px) {
+    .headerPost {
+    display: flex;
+    flex-direction: column;
+    }
+}
 </style>

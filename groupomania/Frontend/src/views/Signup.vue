@@ -119,7 +119,7 @@ export default {
           .then((response) => {
             localStorage.setItem("token", response.data.token)
             localStorage.setItem("userId", response.data.userId)
-            location.replace(location.origin)
+            location.replace("http://localhost:8080/#/accueil")
           })
           .catch(
             (error) => console.log(error),

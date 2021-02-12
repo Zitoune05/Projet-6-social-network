@@ -2,7 +2,6 @@
   <div id="app">
       <Navbar/>
       <router-view />
-      
   </div>
 </template>
 
@@ -22,8 +21,6 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  background-color: white;
 }
 #app a{
   text-decoration: none; 

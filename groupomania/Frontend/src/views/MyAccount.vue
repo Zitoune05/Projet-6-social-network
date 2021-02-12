@@ -1,95 +1,132 @@
 <template>
-    <div class="mt-2">
+
+    <div class="col-md-5 mx-auto mt-5"><!-- marges bootstrap -->
+
+            <!-- information sur le compte de l'utilisateur -->
         <section>
-            <b-card tag="article" class=" shadow mx-auto" style="max-width: 35rem;">
-                     <!-- information sur le compte de l'utilisateur -->
-                    <div class="Userinformation">
-                        <h1>{{ user.username }}</h1>
-                        <p> email: {{ user.email }}</p>
-                        <p> username: {{ user.username }}</p>
-                    </div>
+            
+            <!-- carte Utilisateur -->
+            <b-card tag="article" class="shadow">
 
-                    <!-- Bouton modification  -->
-                    <div class="d-flex justify-content-around">
-                        <b-button id="update" class="blue" >
-                            <b-icon icon="pencil-fill" class="mr-1" style="width:16px"></b-icon>
-                            <router-link to="/users/update" style="color: white">
-                                Modifier
-                            </router-link>
-                        </b-button>
+                <!-- information sur l'utilisateur -->
+                <div>
+                    
+                    <img src="../assets/undraw_Profile_data_re_v81r.svg" alt="email" class="img-fluid svgImagesPublic" >
 
-                        <b-button @click="logout()" variant="outline-info" >
-                            <b-icon icon="power" aria-hidden="true" style="width:17px"></b-icon>
-                                Logout
-                        </b-button>
+                    <!-- h1 Mon profil -->
+                    <h1 class="text-center m-1">Mon profil</h1>
+                    <hr>
+
+                    <!-- email  -->
+                    <p> email : {{ user.email }}</p>
+
+                    <!-- noms -->
+                    <p> nom: {{ user.username }}</p>
+
+                </div>
+
+                <template #footer>
+
+                    <div >
+
+                        <!-- Bouton modification  -->
+                        <div class="d-flex justify-content-around">
+                            <b-button @click="updateUser()"  v-b-tooltip.hover title="Modifier" variant="outline-warning">
+                                <b-icon icon="pencil-fill" ></b-icon>
+                            </b-button>
+                            
+                        <!-- Bouton logout  -->
+                            <b-button @click="logout()" variant="outline-info" v-b-tooltip.hover title="Se déconnecter" >
+                                <b-icon icon="power" aria-hidden="true" ></b-icon>
+                            </b-button>
 
                         <!-- Bouton Suppression  -->
-                        <b-button @click="deleteUser()" variant="outline-danger">
-                            <b-icon icon="trash" class="mr-1" style="width:16px"></b-icon>
-                                Supprimer
-                        </b-button>
-                    </div>
-            </b-card>
-        </section>
+                            <b-button @click="deleteUser()" variant="outline-danger" v-b-tooltip.hover title="Supprimer mon compte">
+                                <b-icon icon="trash"></b-icon>
+                            </b-button>
+                        </div>
 
-        <!-- Liste des publication de l'utilisateur -->
-
-        <section>
-            <div>
-            <h2 style=" text-decoration: underline;">Vos publications</h2>
-            <b-card style="max-width: 40rem;" tag="article" class="shadow mt-5 mx-auto" v-for="publication in publications" :key="publication.id" >
-
-                <template #header>
-                    <div class="headerPost">
-                        <h2>{{publication.User.username}}</h2>
-                        <p> {{publication.createdAt}}</p>
                     </div>
                 </template>
 
-                <b-card-text>
-                    <p>{{publication.title}}</p>
-                </b-card-text>
+            </b-card>
 
-                <b-card id="CardImagePosted" >
-                    <img :src="publication.imageUrl" class="rounded mx-auto img-fluid "  alt="Responsive image" accept="image/*">
-                </b-card>
+        </section>
 
+
+        <!-- Liste des publication de l'utilisateur connecté-->
+        <section v-if="publicationCompte()" >
+            <!-- H2 publication -->
+            
+            <h2 class="sectionTitle "><img src="../assets/undraw_modern_design_v3wv.svg" alt="email" class="img-fluid svgImagesPublic" >Mes publications</h2>
+
+            <!-- Card publication -->
+            <b-card tag="article" class="shadow mt-2" v-for="publication in publications" :key="publication.id" >
+                
+                <!-- Partie header avec le nom et la date de création -->      
+                <div class="headerPost">
+                    
+                    <h2>{{publication.User.username}}</h2>
+                    <p>{{publication.createdAt.slice(5,10).split('-').reverse().join('/') + ' à ' + publication.createdAt.slice(11,16)}}</p>
+                    
+
+                </div>
+
+                 <!-- Contenu de la publication -->
                 <b-card-text>
                     <p>{{publication.content}}</p>
                 </b-card-text>
 
-                <hr>
+                <!-- Image a charger -->
+                <b-card id="CardImagePosted" >
+                    <img :src="publication.imageUrl" class="rounded img-fluid d-flex ml-auto mr-auto " id="imgResponsive" alt="Responsive image" accept="image/*">
+                </b-card>
+
+                <!-- Footer -- Liens pour modifier/supprimer , commenter ou voir les commentaires de la publciation -->
                 <template #footer >
-                    <div class="d-flex justify-content-around">
-                    <a :href="'#/commentaires/'+publication.id" class="h6 small">Commenter</a>
 
-                    <a :href="'#/commentaires/post/'+publication.id" class="h6 small">Voir les commentaires</a>
-                    </div>
-
-                    <div>
-                        <a :href="'#/commentaire/post/'+publication.id" class="h6 small">Modifier / Supprimer</a>
+                    <div class="d-flex justify-content-around" >
+                        <a class="pl-1 pr-1"  :href="'#/commentaires/'+publication.id"><b-icon icon="chat-left-dots" class="mr-1"></b-icon>Commenter</a>
                         
+                        <a variant="outline-primary" :href="'#/commentaires/post/'+publication.id" >Les commentaires</a>
                     </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-around">
+
+                        <!-- lien pour modifier/supprimer la publication -->
+
+                        <b-button type="submit" v-b-tooltip.hover title="Modifier" variant="outline-warning" :href="'#/commentaire/post/'+publication.id">
+                            <b-icon icon="pencil-fill" ></b-icon>
+                        </b-button>
+
+                    </div>
+
                 </template>
 
-            </b-card>
-            </div>
-
+            </b-card>   
         </section>
 
-        <section>
+        
+        <!-- Liste des commentaires de l'utilisateur connecté-->
+        <section v-if="commentCompte()">
 
-            <h2 style=" text-decoration: underline;">Vos commentaires</h2>
+            <!-- H2 commentaires -->
+            <h2 class="sectionTitle "><img src="../assets/undraw_annotation_7das.svg" alt="email" class="img-fluid svgImagesPublic" >Vos commentaires ({{ commentaires.length }})  </h2>
 
-            <b-card tag="article" class="shadow mt-5" v-for="commentaire in commentaires" :key="commentaire.id" >
+            <!-- Card Commentaire -->
+            <b-card tag="article" class="shadow mt-5 mx-auto "  v-for="commentaire in commentaires" :key="commentaire.id" >
 
+            <!-- Partie header avec le nom et la date de création -->   
             <template #header>
                 <div class="headerPost">
                     <h3>{{commentaire.User.username}}</h3>
-                    <p> {{commentaire.createdAt}}</p>
+                    <p >{{commentaire.createdAt.slice(5,10).split('-').reverse().join('/') + ' à ' + commentaire.createdAt.slice(11,16)}}</p>
                 </div>
             </template>
 
+            <!-- commentaires de la publication -->
             <b-card-text>
                 <p>{{commentaire.comments}}</p>
             </b-card-text>
@@ -97,10 +134,43 @@
             <hr>
 
             <template #footer >
-                <div>
-                    <a :href="'#/commentaire/update/'+commentaire.id" class="h6 small">Modifier / Supprimer</a>
+                
+                <div class="d-flex justify-content-around">
+
+                    <!-- lien pour modifier/supprimer le commentaire -->
+                    <b-button  :href="'#/commentaire/update/'+commentaire.id"  type="submit" v-b-tooltip.hover title="Modifier" variant="outline-warning" >
+                        <b-icon icon="pencil-fill" ></b-icon>
+                    </b-button>
+
                 </div>
+                
             </template>
+
+            </b-card>
+        </section>
+
+        <!-- Liste des utilisateur , si l'uitilisateur est admin -->
+        <section v-if="checkAdmin()">
+
+            <!-- H2 ListUser -->
+            <h2 class="sectionTitle text-center " id="ListUser"><img src="../assets/undraw_female_avatar_w3jk.svg" alt="email" class="img-fluid svgImages" >Les utilisateurs<img src="../assets/undraw_male_avatar_323b.svg" alt="email" class="img-fluid svgImages" ></h2>
+
+            <!-- Card publication -->
+            <b-card tag="article" class="shadow mt-5 mx-auto"  v-for="user in users" :key="user.id" >
+            
+            <!-- Contenu des utilisateurs -->
+            <b-card-text>
+                <p>Pseudo : {{user.username}}</p>
+            </b-card-text>
+            <hr>
+            <b-card-text>
+                <p>Email : {{user.email}}</p>
+            </b-card-text>
+            <hr>
+            <b-card-text>
+                <p>id : {{user.id}}</p>
+            </b-card-text>
+
 
             </b-card>
         </section>
@@ -121,24 +191,31 @@ export default {
                 username :'',
             },
             publications: [],
-            commentaires: []
+            commentaires: [],
+            users: [],
         };
     },
     created () {
-    axios
+    axios   // Requette axios pour récupérer les information sur les utilisateur 
+        .get("http://localhost:3000/api/admin/users",
+            { headers: { Authorization: "Bearer " + localStorage.token }})
+        .then(response => { this.users = response.data})
+        .catch(error => {console.log(error)}),
+
+    axios           // Requette axios pour récupérer l'ensemble des publications de l'utilisateur 
       .get("http://localhost:3000/api/publications/users/"+ localStorage.getItem('userId'),
       { headers: { Authorization: "Bearer " + localStorage.token }})
       .then(response => { this.publications = response.data}, )
       .catch(error => {console.log(error)})
     ,
-    axios
+    axios           // Requette axios pour pour récupérer l'ensemble des commentaires de l'utilisateur
       .get('http://localhost:3000/api/commentaires/user/'+ localStorage.getItem('userId'),
       { headers: { Authorization: "Bearer " + localStorage.token }})
       .then(response => { this.commentaires = response.data})
       .catch(error => {console.log(error)})
     },
     mounted() {
-        axios
+        axios       // Requette axios pour récupérer les information de l'utilisateur
             .get("http://localhost:3000/api/me", {
                 headers: { Authorization: "Bearer " + localStorage.token },
             })
@@ -146,35 +223,82 @@ export default {
             .catch((err) => console.log(err));
     },
     methods:{
-        logout() {
+        updateUser() {      // Fonction pour envoyer vers la page de modification du profil
+            location.replace("http://localhost:8080/#/users/update");
+        },
+        logout() {      // Fonction de déconnexion
             location.replace(location.origin);
             localStorage.clear();
 
         },
-        deleteUser(){
-            axios.delete("http://localhost:3000/api/users/" + localStorage.getItem("userId"), {headers: { Authorization: "Bearer " + localStorage.token }})
+        deleteUser(){      // Fonction de suppresion de l'utilisateur
+         
+            axios       // Requette axios pour suprrimer l'user de la base de donnée 
+            .delete("http://localhost:3000/api/users/" + localStorage.getItem("userId"), {headers: { Authorization: "Bearer " + localStorage.token }})
             .then(()=> {
                 localStorage.clear()
                 location.replace(location.origin);
             })
             .catch((error) => error)
         },
-        // deletePublication(){
-        //     axios.delete("http://localhost:3000/api/publications/" + this.$route.params.id, {headers: { Authorization: "Bearer " + localStorage.token }})
-        //     .then(()=> {
-        //     })
-        //     .catch((error) => error)
-        // }
+        checkAdmin(){      // Fonction vérifiant si l'user est Administrateur
+        if( localStorage.getItem("isAdmin") === "true" ) {
+            
+
+            return true;
+        } 
+        else{
+            return false;
+        }
+        }, 
+        commentCompte() {
+             if( this.commentaires.length > 0 ) {
+                    return true;
+                } 
+                else{
+                    return false;
+                }
+      
+        },
+        publicationCompte(){
+             if( this.publications.length > 0 ) {
+                    return true;
+                } 
+                else{
+                    return false;
+                }
+      
+        }
     }
 
 }
 </script>
 
 <style >
-.routerLink{
-    color: wh;
+
+.sectionTitle {          /** Titre h2 de chaque section  */
+    margin-top: 100px;  
+    font-size: 30px;
 }
-.blue{
-    background-color: rgb(97, 135, 170);
+.headerPost {            /** Titre h2 de chaque section  */
+    font-size: 12px;
 }
+.headerPost p{            /** Titre h2 de chaque section  */
+    font-size: 10px;
+
+}
+@media screen and (max-width: 640px) {
+  #buttonUserProfil {
+    display:block;
+    clear:both;
+  }
+}
+.svgImages{
+    width: 60px;
+}
+.svgImagesPublic{
+    width: 100px;
+}
+
+
 </style>

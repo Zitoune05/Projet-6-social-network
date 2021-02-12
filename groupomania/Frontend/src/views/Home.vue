@@ -1,14 +1,10 @@
 <template>
-  <div>
-    <b-container  id="feed">
+  <div  id="feed"  class="row g-0 mx-auto" >
 
-        <!----------  IF not connected ------------->
-          <Wall/>
-        
-       <!----------- ELSE APP card  ------------->
+    <!----------  IF not connected ------------->
+      <Wall/>
+    <!----------- ELSE APP card  ------------->
 
-    </b-container>
-    
   </div>
 </template>
 
@@ -25,8 +21,5 @@ export default {
 </script>
 
 <style >
-  #title{
-    color: rgb(253, 45, 1);
-    font-size: 2.5rem;
-  }
+  
 </style>

@@ -56,7 +56,6 @@ exports.createMessage = (req, res, next) => {
   const userId = decodedToken.userId; 
 
   // Params
-  let title = req.body.title;
   let content = req.body.content;
   let imageUrl = "";
   if (req.file) { imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`}
@@ -69,7 +68,6 @@ exports.createMessage = (req, res, next) => {
     .then(
       models.Publication.create({
         UserId : userId,
-        title : title,
         content : content,
         imageUrl : imageUrl,
         comments: req.body.comments
@@ -82,23 +80,33 @@ exports.createMessage = (req, res, next) => {
 };
 
 // Modification de la publication sélectionnée
-exports.modifypublication = (req, res, next) => {       
-
+exports.modifypublication = (req, res, next) => {   
+ 
   models.Publication.findOne({ attributes: ['id'], where: { id: req.params.id } })
     .then(
       models.Publication.update({
-        title : req.body.title,
         content : req.body.content,
-        imageUrl : req.body.imageUrl,
+        imageUrl : `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
       },
       { where : { id: req.params.id } })
-      .then((response) => res.status(200).json({ response : " Publication modifiée avec succé !" }))     
+      .then((response) => res.status(200).json({ response : " Publication modifiée avec succé !" }),
+      )     
       .catch((err) => res.status(401).json({ err })) 
     )
   .catch(() => res.status(500).json({ 'error': 'unable to verify publication' }))
 };
 
 // Pour supprimer une publication
+exports.deletePublication = (req, res, next) => {         
+
+  models.Publication.destroy({ 
+    where: { id: req.params.id }
+  })        
+  .then((response) => res.status(200).json(response))   
+  .catch((err) => res.status(401).json({ err }));
+};
+
+// Pour supprimer une publication en tant qu'administrateur
 exports.deletePublication = (req, res, next) => {         
 
   models.Publication.destroy({ 
