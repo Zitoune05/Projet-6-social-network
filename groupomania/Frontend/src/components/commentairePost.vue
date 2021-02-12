@@ -1,21 +1,23 @@
 <template>
-    
-        <b-form method="POST" @submit.prevent = "updatePublication" class="mt-4 col-md-7 col-lg-6 mx-auto" >
+        <!-- formulaire de modification -->
+        <b-form method="POST" @submit.prevent = "updatePublication" class="col-md-5 mx-auto mt-5" >
             
-
+            <!-- la publication a commenter -->
             <b-card tag="article" class="shadow mt-5" >
 
-                <template #header>
                     <div class="headerPost">
+                        <!-- publication username -->
                         <h2>{{onePublication.User.username}}</h2> 
-                        <p style="font-size: 12px;">Publié le {{onePublication.createdAt.slice(0,10).split('-').reverse().join('/') + ' à ' + onePublication.createdAt.slice(11,16)}}</p>
-                    </div>
-                </template>
 
-                <hr/>
+                        <!-- publication créée le... -->
+                        <p >{{onePublication.createdAt.slice(0,10).split('-').reverse().join('/') + ' à ' + onePublication.createdAt.slice(11,16)}}</p>
+                    </div>
+
                 <b-card id="CardImagePosted" >
-                    <img :src="onePublication.imageUrl" class="rounded mx-auto img-fluid "  alt="Responsive image" accept="image/*">
+                    <!-- image de la publication -->
+                    <img :src="onePublication.imageUrl" class="rounded img-fluid d-flex ml-auto mr-auto " id="imgResponsive" alt="Responsive image" accept="image/*">
                     
+                    <!-- image a modifier -->
                     <div class="mt-3">
                         <b-form-file v-model="publication.imageUrl" accept="image/*" class="mt-3" @change="uploadImage" id="file-input" plain ></b-form-file>
                     </div>
@@ -24,8 +26,11 @@
                <hr/>
 
                 <b-card-text>
+
+                    <!-- contenu de la publication -->
                     <p>{{onePublication.content}}</p>
 
+                    <!-- contenu de la publication a modifier -->
                     <textarea
                         class="form-control"
                         v-model="publication.content"
@@ -37,13 +42,17 @@
                 </b-card-text>
                 
                 <hr/>
-                <!-- Bouton Suppression  -->
+                <!-- Boutons  -->
                 <div id="updateDelete">
-                    <b-button 
-                        type="submit"
-                        variant="outline-primary"
-                    >
-                        modifier
+                   
+                        <!-- bouton update -->
+                    <b-button type="submit" v-b-tooltip.hover title="Modifier" variant="outline-warning">
+                        <b-icon icon="pencil-fill" ></b-icon>
+                    </b-button>
+
+                        <!-- bouton delete -->
+                    <b-button @click="deletePublication()" variant="outline-danger" v-b-tooltip.hover title="Supprimer la publication">
+                        <b-icon icon="trash"></b-icon>
                     </b-button>
                 
                     <!-- <b-icon  icon="pencil-fill" style="width:16px; color:green"></b-icon> -->
@@ -52,9 +61,7 @@
 
                 </div>
 
-                <div class="d-flex justify-content-end" >
-                    <b-icon @click="deletePublication()"  icon="trash"  style="width:13px; color:red"></b-icon>
-                </div>
+                
 
             </b-card>
 
@@ -71,7 +78,6 @@ export default {
     name: "commentairePost",
     data() {
         return{
-            comments:"",
             onePublication: [],
             publication:{
                 content: "",
@@ -81,6 +87,8 @@ export default {
         }
     },
     created () {
+
+    // requete pour afficher la publication selectionnée
     axios
       .get('http://localhost:3000/api/publications/one/'+ this.$route.params.id,
       { headers: { Authorization: "Bearer " + localStorage.token }})
@@ -88,6 +96,8 @@ export default {
       .catch(error => {console.log(error)})
     },
     methods: {
+
+        // fonction de suppression de publication
         deletePublication(){
             axios.delete("http://localhost:3000/api/publications/" + this.$route.params.id, {headers: { Authorization: "Bearer " + localStorage.token }})
             .then(()=> {
@@ -95,6 +105,8 @@ export default {
             })
             .catch((error) => error)
         },
+
+        // fonction de modification de publication
         updatePublication(){
             const updatePost = new FormData();
 
@@ -103,6 +115,8 @@ export default {
             if(this.imageUrl !== null){
             updatePost.append("image", this.publication.imageUrl, this.publication.imageUrl.filename);
             }
+
+            // requete de modification de la publication
             axios.put("http://localhost:3000/api/publications/" + this.$route.params.id, updatePost, {headers: { Authorization: "Bearer " + localStorage.token }})
             .then((publication)=> {
                 this.content = publication.data.content
@@ -111,6 +125,8 @@ export default {
             })
             .catch((error) => error)
         },
+
+        // fonction pour modifier l'image
         uploadImage(e) {
         this.publication.imageUrl = e.target.files[0];
         if (this.publication.imageUrl.length === 0) {
@@ -125,5 +141,9 @@ export default {
     #updateDelete {
         display:flex;
         justify-content: space-around ;
+    }
+    .headerPost p{            /** Titre h2 de chaque section  */
+    font-size: 10px;
+
     }
 </style>

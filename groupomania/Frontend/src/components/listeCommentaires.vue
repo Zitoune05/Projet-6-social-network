@@ -1,18 +1,16 @@
 <template>
 
-    <div class="col-md-6 mx-auto mt-5">
+    <div class="col-md-5 mx-auto mt-5">
         
-
-        
-        
+        <!-- afficher si au moins 1 commentaire -->
         <div v-if="commentaires.length > 0" >
-
+            
             <b-card tag="article" class="shadow mt-5" >
 
                 <template #header>
                     <div class="headerPost">
                         <h2>{{onePublication.User.username}}</h2> 
-                        <p style="font-size:12px;">Publié le {{onePublication.createdAt.slice(0,10).split('-').reverse().join('/') + ' à ' + onePublication.createdAt.slice(11,16)}}</p>
+                        <p>{{onePublication.createdAt.slice(0,10).split('-').reverse().join('/') + ' à ' + onePublication.createdAt.slice(11,16)}}</p>
                     </div>
                 </template>
 
@@ -26,7 +24,7 @@
 
             </b-card>
 
-            <h1 class="mt-3" id="titleComment" >Liste des commentaires</h1>
+            <h1 class="mt-3 text-center" id="titleComment" >Les commentaires</h1>
 
             <b-card tag="article" class="shadow mt-5" v-for="commentaire in commentaires" :key="commentaire.id" >
 
@@ -45,9 +43,14 @@
 
         </div>
 
+
+        <!-- afficher si aucun commentaire pour la publication selectionnée -->
         <div v-else-if="commentaires.length === 0" >
+
+            <!-- titre précisent qu'il n'y aucun commentaires -->
             <h1 class="mt-2" id="titleComment" >Aucun commentaire pour cette publication</h1>
 
+            <!-- bouton de retour à l'accueil -->
             <b-button pill variant="info" :href="'#/accueil'">retour</b-button>
         </div>
         
@@ -65,16 +68,23 @@ export default {
 
     data() {
         return {
+
+            // liste des commentaires
             commentaires: [],
+
+            // la publication 
             onePublication: []
         }
     },
     created () {
+        // requête pour afficher la publication
          axios
       .get('http://localhost:3000/api/publications/one/'+ this.$route.params.id,
       { headers: { Authorization: "Bearer " + localStorage.token }})
       .then(response => { this.onePublication = response.data})
       .catch(error => {console.log(error)})
+
+    // requête pour afficher les commentaires  
     axios
       .get('http://localhost:3000/api/commentaires/' + this.$route.params.id,
         { headers: { Authorization: "Bearer " + localStorage.token }})
@@ -87,9 +97,11 @@ export default {
 </script>
 
 <style>
-    body {
-        background-color: #091F43
-    }
+   
+    .headerPost p{            /** Titre h2 de chaque section  */
+    font-size: 10px;
+
+}
     @media screen and (max-width: 600px) {
         #titleComment{
             font-size: 20px;

@@ -1,4 +1,5 @@
 <template>
+
   <div class="mx-auto">
 
     <b-card tag="article" class="mb-2 shadow " v-for="publication in Publications" :key="publication.id">

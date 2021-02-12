@@ -1,42 +1,53 @@
 <template>
 
-    <div class="mt-4 col-md-7 col-lg-6 mx-auto"><!-- marges bootstrap -->
+    <div class="col-md-5 mx-auto mt-5"><!-- marges bootstrap -->
 
             <!-- information sur le compte de l'utilisateur -->
         <section>
             
-            <!-- Card User -->
+            <!-- carte Utilisateur -->
             <b-card tag="article" class="shadow">
 
-                <div class="Userinformation ">
-                    <h1>{{ user.username }}</h1>
+                <!-- information sur l'utilisateur -->
+                <div>
+                    
+                    <img src="../assets/undraw_Profile_data_re_v81r.svg" alt="email" class="img-fluid svgImagesPublic" >
+
+                    <!-- h1 Mon profil -->
+                    <h1 class="text-center m-1">Mon profil</h1>
                     <hr>
-                    <p> email: {{ user.email }}</p>
-                    <p> username: {{ user.username }}</p>
+
+                    <!-- email  -->
+                    <p> email : {{ user.email }}</p>
+
+                    <!-- noms -->
+                    <p> nom: {{ user.username }}</p>
+
                 </div>
 
-                    <hr>
-  
-                <div id="buttonUserProfil">
+                <template #footer>
 
-                    <!-- Bouton modification  -->
-                    <div class="d-flex justify-content-around">
-                        <b-button @click="updateUser()"  v-b-tooltip.hover title="Modifier" variant="outline-warning">
-                            <b-icon icon="pencil-fill" ></b-icon>
-                        </b-button>
-                        
-                    <!-- Bouton logout  -->
-                        <b-button @click="logout()" variant="outline-info" v-b-tooltip.hover title="Se déconnecter" >
-                            <b-icon icon="power" aria-hidden="true" ></b-icon>
-                        </b-button>
+                    <div >
 
-                    <!-- Bouton Suppression  -->
-                        <b-button @click="deleteUser()" variant="outline-danger" v-b-tooltip.hover title="Supprimer mon compte">
-                            <b-icon icon="trash"></b-icon>
-                        </b-button>
+                        <!-- Bouton modification  -->
+                        <div class="d-flex justify-content-around">
+                            <b-button @click="updateUser()"  v-b-tooltip.hover title="Modifier" variant="outline-warning">
+                                <b-icon icon="pencil-fill" ></b-icon>
+                            </b-button>
+                            
+                        <!-- Bouton logout  -->
+                            <b-button @click="logout()" variant="outline-info" v-b-tooltip.hover title="Se déconnecter" >
+                                <b-icon icon="power" aria-hidden="true" ></b-icon>
+                            </b-button>
+
+                        <!-- Bouton Suppression  -->
+                            <b-button @click="deleteUser()" variant="outline-danger" v-b-tooltip.hover title="Supprimer mon compte">
+                                <b-icon icon="trash"></b-icon>
+                            </b-button>
+                        </div>
+
                     </div>
-
-                </div>
+                </template>
 
             </b-card>
 
@@ -46,22 +57,20 @@
         <!-- Liste des publication de l'utilisateur connecté-->
         <section v-if="publicationCompte()" >
             <!-- H2 publication -->
-            <h2 class="sectionTitle">Vos publications</h2>
+            
+            <h2 class="sectionTitle "><img src="../assets/undraw_modern_design_v3wv.svg" alt="email" class="img-fluid svgImagesPublic" >Mes publications</h2>
 
             <!-- Card publication -->
             <b-card tag="article" class="shadow mt-2" v-for="publication in publications" :key="publication.id" >
-
+                
                 <!-- Partie header avec le nom et la date de création -->      
-                <template #header>
+                <div class="headerPost">
+                    
+                    <h2>{{publication.User.username}}</h2>
+                    <p>{{publication.createdAt.slice(5,10).split('-').reverse().join('/') + ' à ' + publication.createdAt.slice(11,16)}}</p>
+                    
 
-                    <div class="headerPost">
-                        
-                        <h2>{{publication.User.username}}</h2>
-                        <p> Publié le {{publication.createdAt.slice(5,10).split('-').reverse().join('/') + ' à ' + publication.createdAt.slice(11,16)}}</p>
-                        
-
-                    </div>
-                </template>
+                </div>
 
                  <!-- Contenu de la publication -->
                 <b-card-text>
@@ -70,27 +79,27 @@
 
                 <!-- Image a charger -->
                 <b-card id="CardImagePosted" >
-                    <img :src="publication.imageUrl" class="rounded mx-auto img-fluid mw-25"  alt="Image responsive" accept="image/*">
+                    <img :src="publication.imageUrl" class="rounded img-fluid d-flex ml-auto mr-auto " id="imgResponsive" alt="Responsive image" accept="image/*">
                 </b-card>
 
                 <!-- Footer -- Liens pour modifier/supprimer , commenter ou voir les commentaires de la publciation -->
                 <template #footer >
 
-                    <div class="d-flex justify-content-around">
+                    <div class="d-flex justify-content-around" >
+                        <a class="pl-1 pr-1"  :href="'#/commentaires/'+publication.id"><b-icon icon="chat-left-dots" class="mr-1"></b-icon>Commenter</a>
                         
-                        <!-- lien pour commenter -->
-                        <a :href="'#/commentaires/'+publication.id" class="h6 small">Commenter</a>
-
-                        <!-- lien pour voir les commentaires de la publication -->
-                        <a :href="'#/commentaires/post/'+publication.id" class="h6 small">Voir les commentaires</a>
-
+                        <a variant="outline-primary" :href="'#/commentaires/post/'+publication.id" >Les commentaires</a>
                     </div>
+
+                    <hr>
 
                     <div class="d-flex justify-content-around">
 
                         <!-- lien pour modifier/supprimer la publication -->
-                        <a :href="'#/commentaire/post/'+publication.id" class="h6 small">Modifier</a>
 
+                        <b-button type="submit" v-b-tooltip.hover title="Modifier" variant="outline-warning" :href="'#/commentaire/post/'+publication.id">
+                            <b-icon icon="pencil-fill" ></b-icon>
+                        </b-button>
 
                     </div>
 
@@ -104,7 +113,7 @@
         <section v-if="commentCompte()">
 
             <!-- H2 commentaires -->
-            <h2 class="sectionTitle" style="text-align: center">Vous avez publié {{ commentaires.length }} commentaire </h2>
+            <h2 class="sectionTitle "><img src="../assets/undraw_annotation_7das.svg" alt="email" class="img-fluid svgImagesPublic" >Vos commentaires ({{ commentaires.length }})  </h2>
 
             <!-- Card Commentaire -->
             <b-card tag="article" class="shadow mt-5 mx-auto "  v-for="commentaire in commentaires" :key="commentaire.id" >
@@ -113,7 +122,7 @@
             <template #header>
                 <div class="headerPost">
                     <h3>{{commentaire.User.username}}</h3>
-                    <p > Publié le {{commentaire.createdAt.slice(5,10).split('-').reverse().join('/') + ' à ' + commentaire.createdAt.slice(11,16)}}</p>
+                    <p >{{commentaire.createdAt.slice(5,10).split('-').reverse().join('/') + ' à ' + commentaire.createdAt.slice(11,16)}}</p>
                 </div>
             </template>
 
@@ -126,9 +135,12 @@
 
             <template #footer >
                 
-                <div>
+                <div class="d-flex justify-content-around">
+
                     <!-- lien pour modifier/supprimer le commentaire -->
-                    <a :href="'#/commentaire/update/'+commentaire.id" class="h6 small">Modifier / Supprimer</a>
+                    <b-button  :href="'#/commentaire/update/'+commentaire.id"  type="submit" v-b-tooltip.hover title="Modifier" variant="outline-warning" >
+                        <b-icon icon="pencil-fill" ></b-icon>
+                    </b-button>
 
                 </div>
                 
@@ -141,7 +153,7 @@
         <section v-if="checkAdmin()">
 
             <!-- H2 ListUser -->
-            <h2 class="sectionTitle" id="ListUser">Liste des utilisateur</h2>
+            <h2 class="sectionTitle text-center " id="ListUser"><img src="../assets/undraw_female_avatar_w3jk.svg" alt="email" class="img-fluid svgImages" >Les utilisateurs<img src="../assets/undraw_male_avatar_323b.svg" alt="email" class="img-fluid svgImages" ></h2>
 
             <!-- Card publication -->
             <b-card tag="article" class="shadow mt-5 mx-auto"  v-for="user in users" :key="user.id" >
@@ -266,9 +278,14 @@ export default {
 
 .sectionTitle {          /** Titre h2 de chaque section  */
     margin-top: 100px;  
+    font-size: 30px;
 }
 .headerPost {            /** Titre h2 de chaque section  */
     font-size: 12px;
+}
+.headerPost p{            /** Titre h2 de chaque section  */
+    font-size: 10px;
+
 }
 @media screen and (max-width: 640px) {
   #buttonUserProfil {
@@ -276,5 +293,12 @@ export default {
     clear:both;
   }
 }
+.svgImages{
+    width: 60px;
+}
+.svgImagesPublic{
+    width: 100px;
+}
+
 
 </style>
