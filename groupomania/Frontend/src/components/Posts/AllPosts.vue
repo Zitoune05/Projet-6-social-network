@@ -23,7 +23,7 @@
             <div class="d-flex justify-content-end" v-if="admin()">
 
                 <!-- lien pour modifier la publication en tant qu'admin  -->
-                <a :href="'#/commentaire/post/'+publication.id"><b-icon  id="AdminUpdatePublication"   icon="pencil-fill" ></b-icon> </a>
+                <a :href="'#/publication/update/'+publication.id"><b-icon  id="AdminUpdatePublication"   icon="pencil-fill" ></b-icon> </a>
 
             </div>
 

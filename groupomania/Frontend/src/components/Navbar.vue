@@ -42,6 +42,10 @@
                         <b-dropdown-item :href="'#/createpost'">
                             Créer une publication
                         </b-dropdown-item>
+                        <!-- lien vers la création de publication -->
+                        <b-dropdown-item :href="'#/aide'">
+                            Aide
+                        </b-dropdown-item>
                         
                     </b-nav-item-dropdown>
 

@@ -97,7 +97,7 @@
 
                         <!-- lien pour modifier/supprimer la publication -->
 
-                        <b-button type="submit" v-b-tooltip.hover title="Modifier" variant="outline-warning" :href="'#/commentaire/post/'+publication.id">
+                        <b-button type="submit" v-b-tooltip.hover title="Modifier" variant="outline-warning">
                             <b-icon icon="pencil-fill" ></b-icon>
                         </b-button>
 
