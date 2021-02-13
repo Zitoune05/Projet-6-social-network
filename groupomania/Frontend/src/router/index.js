@@ -1,17 +1,16 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Contact from '../views/Contact.vue'
 import Signup from '../views/Signup.vue'
 import Signin from '../views/Signin.vue'
+import aide from '../views/Aide.vue'
 import MyAccount from '../views/MyAccount.vue'
 import updateUser from '../components/Account/update.vue'
-// import CardPost from '../components/Posts/CardPost.vue'
 import createPost from '../components/Posts/CreatePost.vue'
-import commentaires from '../components/listeCommentaires.vue'
-import commentairesPost from '../components/commentairesPost.vue'
-import commentairePost from '../components/commentairePost.vue'
-import commentaireUpdate from '../components/commentaireUpdate.vue'
+import commentaires from '../components/comments/listeCommentaires.vue'
+import commentairesPost from '../components/comments/commentairesPost.vue'
+import publicationUpdate from '../components/Posts/publicationUpdate.vue'
+import commentaireUpdate from '../components/comments/commentaireUpdate.vue'
 
 
 Vue.use(VueRouter)
@@ -45,20 +44,15 @@ const routes = [
     component: MyAccount
   },
   {
+    path: '/aide',
+    name: 'aide',
+    component: aide
+  },
+  {
     path: '/users/update',
     name: 'updateUser',
     component: updateUser
   },
-  {
-    path: '/contact',
-    name: 'contact',
-    component: Contact
-  },
-  // {
-  //   path: '/mur',
-  //   name: 'CardPost',
-  //   component: CardPost
-  // },
   {
     path: '/createpost',
     name: 'createPost',
@@ -75,9 +69,9 @@ const routes = [
     component: commentaireUpdate
   },
   {
-    path: '/commentaire/post/:id',
+    path: '/publication/update/:id',
     name: 'commentairePost',
-    component: commentairePost
+    component: publicationUpdate
   },
   {
     path: '/commentaires/post/:id',
