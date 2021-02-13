@@ -34,7 +34,7 @@
 
                     <b-card-text>
                         <!-- contenu du commentaire -->
-                        <textarea class="form-control" v-model="comments" id="comments" name="comments" rows="10" placeholder="Votre commentaire ici..." required ></textarea>
+                        <textarea class="form-control" v-model="comments" id="comments" name="comments" rows="4" placeholder="Votre commentaire ici..." required ></textarea>
                     </b-card-text>
 
 
@@ -89,7 +89,7 @@ export default {
             axios.post("http://localhost:3000/api/commentaire/" + this.$route.params.id, {"comments": this.comments} ,
                 { headers: { Authorization: "Bearer " + localStorage.token }}
             )
-            .then(() =>  this.comments, location.replace("http://localhost:8080/#/profil"))
+            .then(() =>  this.comments, location.replace("http://localhost:8080/#/accueil"))
             .catch((erreur) => { console.log("erreur" + erreur);
             })
         }

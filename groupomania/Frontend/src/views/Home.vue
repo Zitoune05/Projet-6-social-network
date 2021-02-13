@@ -9,7 +9,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import Wall from '../components/Posts/AllPosts';
 
 export default {
