@@ -5,39 +5,51 @@
         <!-- afficher si au moins 1 commentaire -->
         <div v-if="commentaires.length > 0" >
             
+            <!-- partie publciation -->
             <b-card tag="article" class="shadow mt-5" >
 
-                <template #header>
-                    <div class="headerPost">
-                        <h2>{{onePublication.User.username}}</h2> 
-                        <p>{{onePublication.createdAt.slice(0,10).split('-').reverse().join('/') + ' à ' + onePublication.createdAt.slice(11,16)}}</p>
-                    </div>
-                </template>
+                <div class="headerPost">
+                    
+                        <!-- publication username -->
+                    <h2>{{onePublication.User.username}}</h2> 
+
+                        <!-- publication créée le... -->
+                    <p>{{onePublication.createdAt.slice(0,10).split('-').reverse().join('/') + ' à ' + onePublication.createdAt.slice(11,16)}}</p>
+                </div>
 
                 <b-card id="CardImagePosted" >
+                    <!-- image de la publication -->
                     <img :src="onePublication.imageUrl" class="rounded mx-auto img-fluid "  alt="Responsive image" accept="image/*">
                 </b-card>
 
                 <b-card-text>
+                    <!-- contenu de la publication -->
                     <p>{{onePublication.content}}</p>
                 </b-card-text>
 
             </b-card>
 
-            <h1 class="mt-3 text-center" id="titleComment" >Les commentaires</h1>
 
+            <!-- partie  Liste de commentaires -->
             <b-card tag="article" class="shadow mt-5" v-for="commentaire in commentaires" :key="commentaire.id" >
 
-            <template #header>
-                <div class="headerPost">
-                    <h3>{{commentaire.User.username}}</h3>
-                    <p>{{commentaire.createdAt.slice(0,10).split('-').reverse().join('/') + ' à ' + commentaire.createdAt.slice(11,16)}}</p>
-                </div>
-            </template>
 
-            <b-card-text>
-                <p>{{commentaire.comments}}</p>
-            </b-card-text>
+                <template #header>
+                    
+                    <div class="headerPost">
+                        
+                        <h3>{{commentaire.User.username}}</h3>
+                        <p>{{commentaire.createdAt.slice(0,10).split('-').reverse().join('/') + ' à ' + commentaire.createdAt.slice(11,16)}}</p>
+                        
+                    </div>
+                    
+                </template>
+
+                <b-card-text>
+                    
+                    <p>{{commentaire.comments}}</p>
+
+                </b-card-text>
 
             </b-card>
 

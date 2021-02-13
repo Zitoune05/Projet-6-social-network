@@ -61,7 +61,7 @@
             <h2 class="sectionTitle "><img src="../assets/undraw_modern_design_v3wv.svg" alt="email" class="img-fluid svgImagesPublic" >Mes publications</h2>
 
             <!-- Card publication -->
-            <b-card tag="article" class="shadow mt-2" v-for="publication in publications" :key="publication.id" >
+            <b-card tag="article" class="shadow mt-5" v-for="publication in publications" :key="publication.id" >
                 
                 <!-- Partie header avec le nom et la date de création -->      
                 <div class="headerPost">
@@ -97,7 +97,7 @@
 
                         <!-- lien pour modifier/supprimer la publication -->
 
-                        <b-button type="submit" v-b-tooltip.hover title="Modifier" variant="outline-warning">
+                        <b-button type="submit" v-b-tooltip.hover title="Modifier" variant="outline-warning" :href="'#/publication/update/'+publication.id">
                             <b-icon icon="pencil-fill" ></b-icon>
                         </b-button>
 

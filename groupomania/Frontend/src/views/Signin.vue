@@ -1,8 +1,12 @@
 <template>
-  <b-card tag="article" style="max-width: 35rem;" class="container mt-2 shadow ">
 
+  <!-- card pour se connecter -->
+  <b-card tag="article" class="container shadow col-md-5 mx-auto mt-5">
+
+    <!-- formulaire pour se connecter -->
     <form method="POST" @submit.prevent="login">
 
+      <!-- partie email -->
       <section class="mt-3">
         <b-form>
           <label for="feedback-user">Email</label>
@@ -16,6 +20,7 @@
         </b-form>
       </section>
       
+      <!-- partie passwords -->
       <section>
         <b-form>
           <label for="text-password">Password</label>
@@ -29,18 +34,23 @@
         </b-form>
       </section>
       
+      <!-- bouton de connexion -->
       <b-button type="submit" variant="outline-primary">CONNEXION</b-button>
 
     </form>
 
     
     <hr>
+
     <p>Pas encore inscrit ? 
-        <b-button variant="outline-success" >
-            <router-link to="/signup" id="LinkSignup">
-                Créer un compte
-            </router-link>
-        </b-button>
+
+      <!-- bouton pour s'inscrire -->
+      <b-button variant="outline-success" >
+          <router-link to="/signup" id="LinkSignup">
+              Créer un compte
+          </router-link>
+      </b-button>
+
     </p>
 
 
@@ -60,6 +70,7 @@ export default {
     }
   },
   methods: {
+    // fonction pour se connecter
     login: function()  {
       if ( this.email == null || this.password == null) {
         alert('Votre email ou mot de passe est incorrect !')
@@ -101,36 +112,4 @@ export default {
   section{
     margin-bottom: 2rem;
   }
-
-  hr{
-    line-height: 1em;
-    position: relative;
-    outline: 0;
-    border: 0;
-    color: black;
-    text-align: center;
-    height: 1.5em;
-    opacity: .5;
-    }
-
-    hr::before {
-        content: '';
-        background: linear-gradient(to right, transparent, #818078, transparent);
-        position: absolute;
-        left: 0;
-        top: 50%;
-        width: 100%;
-        height: 1px;
-    }
-    hr::after {
-        content: attr(data-content);
-        position: relative;
-        display: inline-block;
-        color: black;
-
-        padding: 0 .5em;
-        line-height: 1.5em;
-        color: #818078;
-        background-color: #fcfcfa;
-    }
 </style>

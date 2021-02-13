@@ -18,13 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         })
     };
 
-    // Publication.associate = function (models) {
-    //     models.Publication.hasMany(models.Commentaire, {
-    //         foreignKey: {
-    //             allowNull: false
-    //         }
-    //     })
-    // };
+    
 
     return Publication;
 };
