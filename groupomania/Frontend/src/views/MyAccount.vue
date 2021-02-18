@@ -243,8 +243,6 @@ export default {
         },
         checkAdmin(){      // Fonction vérifiant si l'user est Administrateur
         if( localStorage.getItem("isAdmin") === "true" ) {
-            
-
             return true;
         } 
         else{

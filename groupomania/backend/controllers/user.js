@@ -2,19 +2,19 @@ const bcrypt = require('bcrypt');                           // Package pour cryp
 const jwt = require('jsonwebtoken');                        //Package pour créer des jetons uniques
 require('dotenv').config();  
 
-// const emailValidator = require('email-validator');          //plugin de validation d'email
-// const passWordValidator = require('password-validator');    //plugin de validation de mot de passe
+const emailValidator = require('email-validator');          //plugin de validation d'email
+const passWordValidator = require('password-validator');    //plugin de validation de mot de passe
 
 const models = require('../models');
 
-// let schemaPassWord = new passWordValidator();   // variable de validation de mot de passe
-// schemaPassWord 
-// // .is().min(6)                                    //longeur minimale 8
-// // // .has().uppercase()                              //Doit avoir des lettres majuscules
-// // // .has().lowercase()                              //Doit avoir des lettres minuscules
-// // // .has().digits(1)                                //Doit avoir au moins 1 chiffre
-// .has().not().spaces()                           //Les espaces sont interdits
-// .is().not().oneOf(['Passw0rd', 'Password123'])  //Liste noire de ces valeurs 
+let schemaPassWord = new passWordValidator();   // variable de validation de mot de passe
+schemaPassWord 
+.is().min(6)                                    //longeur minimale 8
+.has().uppercase()                              //Doit avoir des lettres majuscules
+.has().lowercase()                              //Doit avoir des lettres minuscules
+.has().digits(1)                                //Doit avoir au moins 1 chiffre
+.has().not().spaces()                           //Les espaces sont interdits
+.is().not().oneOf(['Passw0rd', 'Password123'])  //Liste noire de ces valeurs 
 
 
 // Fonction d'inscription
@@ -28,7 +28,6 @@ exports.signup = (req, res, next) => {
             username: req.body.username,
             email: req.body.email,
             password: hash,
-            isAdmin: req.body.isAdmin
             });
             newUser.save()     // méthode save pour enregistrer le nouvelle utilisateur dans la base de donnée
                 .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))

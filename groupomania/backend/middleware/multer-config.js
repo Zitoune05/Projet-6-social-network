@@ -15,7 +15,7 @@ const storage = multer.diskStorage({            // Fonction diskStorage pour enr
     filename: (req, file, callback) =>{         // Element expliquant quelle nom de fichier utiliser
         console.log("ok2");
         const name = file.originalname.split(' ').join('_');        // Nouveau nom pour le fichier (nom d'origine en remplacant les espaces par _ )
-        const extension = MIME_TYPES[file.mimetype];              // Création de l'extension du fichier correspondant au minetype envoyé oar le frontend
+        const extension = MIME_TYPES[file.mimetype];              // Création de l'extension du fichier correspondant au minetype envoyé par le frontend
         callback(null, name + Date.now() + '.' + extension);        // Nom du fichier + l'heure et la date d'enregistrement (pour rendre le fichier unique) + son extension
     }
 });
