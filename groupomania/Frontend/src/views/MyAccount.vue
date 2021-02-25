@@ -58,7 +58,7 @@
         <section v-if="publicationCompte()" >
             <!-- H2 publication -->
             
-            <h2 class="sectionTitle "><img src="../assets/undraw_modern_design_v3wv.svg" alt="email" class="img-fluid svgImagesPublic" >Mes publications</h2>
+            <h2 class="sectionTitle "><img src="../assets/undraw_modern_design_v3wv.svg" alt="email" class="img-fluid svgImagesPublic" >Publication ({{ publications.length }}) </h2>
 
             <!-- Card publication -->
             <b-card tag="article" class="shadow mt-5" v-for="publication in publications" :key="publication.id" >
@@ -113,7 +113,7 @@
         <section v-if="commentCompte()">
 
             <!-- H2 commentaires -->
-            <h2 class="sectionTitle "><img src="../assets/undraw_annotation_7das.svg" alt="email" class="img-fluid svgImagesPublic" >Vos commentaires ({{ commentaires.length }})  </h2>
+            <h2 class="sectionTitle "><img src="../assets/undraw_annotation_7das.svg" alt="email" class="img-fluid svgImagesPublic" >Commentaires ({{ commentaires.length }})  </h2>
 
             <!-- Card Commentaire -->
             <b-card tag="article" class="shadow mt-5 mx-auto "  v-for="commentaire in commentaires" :key="commentaire.id" >
@@ -242,7 +242,7 @@ export default {
             .catch((error) => error)
         },
         checkAdmin(){      // Fonction vérifiant si l'user est Administrateur
-        if( localStorage.getItem("isAdmin") === "true" ) {
+        if( localStorage.getItem("role") === "admin" ) {
             return true;
         } 
         else{

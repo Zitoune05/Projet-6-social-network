@@ -12,7 +12,7 @@ exports.getAllpublications = (req, res, next) => {
     }
   })
   .then((publications) => res.status(200).json(publications))
-  .catch(error => res.status(400).json({ error: "getAllpublication", error: error }),console.log("erreur de getAllPublication"));
+  .catch(error => res.status(400).json({ error: "getAllpublication", error: error }) );
 };
 
 
@@ -28,7 +28,7 @@ exports.getOnePublication = (req, res, next) => {
     }
   })
 
-  .then((publication) => res.status(200).json( publication), console.log("getOnePublication"))
+  .then((publication) => res.status(200).json( publication))
   .catch(error => res.status(400).json({ error}));
 };
 
@@ -56,7 +56,6 @@ exports.createMessage = (req, res, next) => {
   const userId = decodedToken.userId;
 
   // Params
-  let content = req.body.content;
   let imageUrl = "";
   if (req.file) { imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`}
 
@@ -68,7 +67,7 @@ exports.createMessage = (req, res, next) => {
     .then(
       models.Publication.create({
         UserId : userId,
-        content : content,
+        content : req.body.content,
         imageUrl : imageUrl,
         comments: req.body.comments
       })
