@@ -2,7 +2,8 @@
 <template >
 
     
-    <div class="col-md-5 mx-auto mt-5">
+    <div class="col-md-5 mx-auto mt-5" >
+
 
         <!-- one-publication -->
         <b-card tag="article" class="shadow mb-4" v-for="publication in publications" :key="publication.id" id="card">
@@ -65,23 +66,18 @@ export default {
 
             // tableau de publication
             publications: [],
+            Commentaires: []
+
         }
     },
-    beforeCreated(){
-        let accueil = document.getElementById('accueil');
-        let accueilTitle = document.createElement("h2");
-        accueilTitle.append(accueil);
-        accueilTitle.innerHTML = 'Bienvenue'
-        
-
-    },
+    
     created() {
 
     // requete pour afficher toute les publications
     axios
       .get('http://localhost:3000/api/publications',
       { headers: { Authorization: "Bearer " + localStorage.token }})
-      .then(response => { this.publications = response.data})
+      .then(response => { this.publications = response.data, console.log(this.publications)})
       .catch(error => (error))
     },
     
@@ -90,10 +86,10 @@ export default {
 
         // méthode pour verifier si l'utilisateur est admin
         admin(){
-            if(localStorage.getItem('isAdmin') == "true") {
+            if(localStorage.getItem('role') == "users") {
                 return true
-            }else {
-                return false
+            }else if(localStorage.getItem('role') == "admin"){
+                return true
             }
         },
     

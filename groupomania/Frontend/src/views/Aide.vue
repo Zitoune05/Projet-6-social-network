@@ -1,7 +1,7 @@
 <template>
     <b-card class="col-md-6 mx-auto mt-5">
         
-        <h1 class="titleAide text-center mb-5 mt-3">Bienvenuesur le réseau social de votre entreprise</h1>
+        <h1 class="titleAide text-center mb-5 mt-3">Bienvenue sur le réseau social de votre entreprise</h1>
 
         <div class="text-center">
 

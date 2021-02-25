@@ -14,13 +14,13 @@
     <form method="POST" @submit.prevent = "checkForm">
 
       <!-- partie email -->
-      <section>
+      <section class="text-center">
         <b-form >
           <label for="email">Email</label>
           <b-form-input
             id="email"
             v-model="email"
-            style="max-width: 300px; margin: auto;"
+            class="mx-auto mw-75"
             type="email"
             aria-describedby="password-help-block" >
           </b-form-input>
@@ -28,44 +28,43 @@
       </section>
 
       <!-- partie pseudo  -->
-      <section class="mt-3">
+      <section class="text-center">
         <b-form  >
           <label for="username">Pseudo</label>
           <b-form-input
             id="username"
             v-model="username"
-            style="max-width: 300px; margin: auto;"
+            class="mx-auto mw-75"
             type="text">
           </b-form-input>
         </b-form>
       </section>
 
       <!-- partie password -->
-      <section>
+      <section class="text-center">
         <b-form >
           <label for="password">Password</label>
           <b-form-input
             id="password"
             v-model="password"
             type="password"
-            class="text-password"
+            class="mx-auto mw-75"
             aria-describedby="password-help-block"
-            style="max-width: 300px; margin: auto;">
+            >
           </b-form-input>
         </b-form>
       </section>
 
       <!-- comfirmation de mot de passe pour la comparaison -->
-      <section>
+      <section class="text-center">
         <b-form >
           <label for="confirmPassword">Confirm Password</label>
           <b-form-input
             id="confirmPassword"
             v-model="confirmPassword"
             type="password"
-            class="text-password"
+            class="mx-auto mw-75"
             aria-describedby="password-help-block"
-            style="max-width: 300px; margin: auto;"
           ></b-form-input>
         </b-form>
       </section><hr>

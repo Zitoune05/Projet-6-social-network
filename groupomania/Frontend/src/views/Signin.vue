@@ -82,7 +82,7 @@ export default {
         .then((response) => {
           localStorage.setItem("token", response.data.token)
           localStorage.setItem("userId", response.data.userId)
-          localStorage.setItem("isAdmin", response.data.isAdmin)
+          localStorage.setItem("role", response.data.role)
           
           location.reload(location.replace("http://localhost:8080/#/accueil"));
         })

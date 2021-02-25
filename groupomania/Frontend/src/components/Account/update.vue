@@ -1,7 +1,7 @@
 <template>
 
   <!-- card modification des informations d'utilisateur -->
-  <b-card tag="article" style="max-width: 35rem;" class="container mt-2 shadow ">
+  <b-card tag="article" class="container shadow col-md-5 mx-auto mt-5 ">
 
     <div>
         <h1>Modifier les informations</h1>
