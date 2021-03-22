@@ -29,21 +29,48 @@
 
                     <div >
 
-                        <!-- Bouton modification  -->
+                        
                         <div class="d-flex justify-content-around">
+                            
+                            <!-- Bouton modification  -->
                             <b-button @click="updateUser()"  v-b-tooltip.hover title="Modifier" variant="outline-warning">
                                 <b-icon icon="pencil-fill" ></b-icon>
                             </b-button>
                             
-                        <!-- Bouton logout  -->
+                            <!-- Bouton logout  -->
                             <b-button @click="logout()" variant="outline-info" v-b-tooltip.hover title="Se déconnecter" >
                                 <b-icon icon="power" aria-hidden="true" ></b-icon>
                             </b-button>
 
-                        <!-- Bouton Suppression  -->
-                            <b-button @click="deleteUser()" variant="outline-danger" v-b-tooltip.hover title="Supprimer mon compte">
-                                <b-icon icon="trash"></b-icon>
-                            </b-button>
+                            <!-- Bouton Suppression  -->
+                            <div>
+                                <b-button @click="$bvModal.show('modal-scoped')"  variant="outline-danger" v-b-tooltip.hover title="Supprimer mon compte"><b-icon icon="trash"></b-icon></b-button>
+
+                                <b-modal id="modal-scoped">
+                                    <template #modal-header>
+                                        <h5>Supprimer mon compte</h5>
+                                    </template>
+
+                                    <template #default>
+                                        <p>Si vous continuer, la suppression sera définitive.
+                                            <br>Êtes-vous sûr de vouloir continuer ?
+                                        </p>
+                                    </template>
+
+                                    <template #modal-footer>
+                                
+                                        <b-button size="sm" variant="success" @click="deleteUser()">
+                                            Valider
+                                        </b-button>
+                                        <b-button size="sm" variant="danger" @click="$bvModal.hide('modal-scoped')">
+                                            Annuler
+                                        </b-button>
+                                    </template>
+
+                                </b-modal>
+                            </div>
+                           
+                            
                         </div>
 
                     </div>
@@ -223,6 +250,15 @@ export default {
             .catch((err) => console.log(err));
     },
     methods:{
+        // ok() {      // Fonction de suppresion de l'utilisateur
+        //     axios       // Requette axios pour suprrimer l'user de la base de donnée 
+        //     .delete("http://localhost:3000/api/users/" + localStorage.getItem("userId"), {headers: { Authorization: "Bearer " + localStorage.token }})
+        //     .then(()=> {
+        //         localStorage.clear()
+        //         location.replace(location.origin);
+        //     })
+        //     .catch((error) => error)
+        // },
         updateUser() {      // Fonction pour envoyer vers la page de modification du profil
             location.replace("http://localhost:8080/#/users/update");
         },

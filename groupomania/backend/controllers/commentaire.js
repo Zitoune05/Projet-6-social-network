@@ -18,7 +18,7 @@ exports.findAllComments = (req, res, next) => {
         },
          
     })
-    .then(comments => { res.status(200).json(comments), console.log(comments)})
+    .then(comments => { res.status(200).json(comments)})
     .catch(error => res.status(400).json({ error }), console.log("erreur findAllComments"))
 }
 
@@ -42,18 +42,18 @@ exports.createComments = (req, res, next) => {
 
 // Récupère une publication pour l'afficher
 exports.getOneComments = (req, res, next) => {
-  Commentaires.findOne({
+Commentaires.findOne({
     where: {
-      id: req.params.id
+    id: req.params.id
     },
     include: {
-      model: models.User,
-      attributes: ['username']
+    model: models.User,
+    attributes: ['username']
     }
-  })
+})
 
-  .then((response) => res.status(200).json( response))
-  .catch(error => res.status(400).json({ error}));   
+.then((response) => res.status(200).json( response))
+.catch(error => res.status(400).json({ error}));   
 };
 
 // Récupère les Commentaires en fonction de l'utilisateur
@@ -86,4 +86,3 @@ exports.deleteComment = (req, res, next) => {
         .then(() => res.status(200).json({ message: "Commentaire supprimé !" }))
         .catch(error => res.status(400).json({ error }))
 }
-   

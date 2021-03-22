@@ -9,7 +9,7 @@
 
                 <!-- logo -- lien vers le mur de publications -->
                 <router-link to="/accueil">
-                    <img id="Logo" alt="logo de l'entreprise" src="../assets/icon-left-font-monochrome-white.svg" width="200px"/>
+                    <img id="Logo" alt="logo de l'entreprise" src="../assets/icon-left-font-monochrome-white.svg"  class="img-fluid mw-200"/>
                 </router-link>
                 
             </b-navbar-brand>
@@ -77,14 +77,13 @@
 <script>
 export default {
     name: 'Navbar',
-   
+
     methods:{
 
         // fonction de déconnexion
         logout() {
             location.replace(location.origin);
-            localStorage.clear();
-          
+            localStorage.clear();          
         },
 
         // fonction pour afficher un contenu si l'utilisateur est déconnecté
@@ -126,4 +125,7 @@ export default {
     #ok{
         background-color: red;
     }
+    /* #Logo{
+        width: 900px;
+    } */
 </style>

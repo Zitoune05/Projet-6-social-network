@@ -15,10 +15,17 @@ module.exports = (sequelize, DataTypes) => {
             foreignKey: {
                 allowNull: false
             },
+        }),
+        models.Publication.hasMany(models.Commentaire, {
+            constraints: false,
+            sourceKey: "id",
+            foreignKey: {
+                allowNull: false
+            },
         })
     };
 
-    
+  
 
     return Publication;
 };

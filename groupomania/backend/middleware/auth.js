@@ -6,11 +6,11 @@ module.exports = (req, res, next) =>  {
         const decodedToken = jwt.verify(token, process.env.TOKEN);      // Token comparé 
         const userId = decodedToken.userId;
         const role = decodedToken.isAdmin;
-        if (role !== "admin" && req.body.isAdmin && req.body.userId !== userId) {
+        if (role === "admin" || req.body.isAdmin && req.body.userId !== userId) {
             throw 'User ID invalide !';
         } 
         else {
-            console.log('Passage par middleware auth')
+            console.log(role,'Passage par middleware auth')
             next();
         }
     } 

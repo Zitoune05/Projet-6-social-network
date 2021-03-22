@@ -13,13 +13,14 @@
             id="text-password"
             rows="6"
             placeholder="Écrivez votre premier message !"
-            v-model="publication.content">
+            v-model="publication.content"
+            required>
           </textarea>
       </section>
 
       <!-- image à charger -->
       <div>
-        <b-form-file v-model="publication.imageUrl" accept="image/*" class="mt-3" @change="uploadImage" id="file-input" plain ></b-form-file>
+        <b-form-file v-model="publication.imageUrl" accept="image/*" class="mt-3" @change="uploadImage" id="file-input" plain required></b-form-file>
      
       </div>
 
@@ -55,7 +56,7 @@ export default {
       newPost.append("content", this.publication.content);
       newPost.append("image", this.publication.imageUrl, this.publication.imageUrl.filename);
 
-      if( !this.publication.content || !this.publication.imageUrl ) {
+      if( !newPost ) {
         alert('Champ requis !')
       }
 
