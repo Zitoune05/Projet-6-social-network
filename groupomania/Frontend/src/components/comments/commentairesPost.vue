@@ -17,7 +17,7 @@
                 
                 <!-- image de la publication -->
                 <b-card id="CardImagePosted" >
-                    <img :src="onePublication.imageUrl" class="rounded mx-auto img-fluid "  alt="Responsive image" accept="image/*">
+                    <img :src="onePublication.imageUrl" class="rounded img-fluid d-flex ml-auto mr-auto "  alt="Responsive image" accept="image/*">
                 </b-card>
 
                 <b-card-text>

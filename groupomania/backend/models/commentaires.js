@@ -11,19 +11,16 @@ module.exports = (sequelize, DataTypes) => {
 
   Commentaire.associate = function (models) {
     models.Commentaire.belongsTo(models.Publication,{
-      foreignKey: {
-        allowNull: false
-      }
-  })
-  };
-
-  Commentaire.associate = function (models) {
+      
+      sourceKey: "publicationId",
+    })
     models.Commentaire.belongsTo(models.User,{
       foreignKey: {
         allowNull: false
       }
-  })
-  };
+    })
+  }
+
 
   return Commentaire;
-};
+}

@@ -72,7 +72,7 @@ export default {
   methods: {
     // fonction pour se connecter
     login: function()  {
-      if ( this.email == null || this.password == null) {
+      if ( this.email === null || this.password === null) {
         alert('Votre email ou mot de passe est incorrect !')
       } 
       else {
@@ -92,7 +92,6 @@ export default {
       }
     },
   }
- 
 };
 </script>
 

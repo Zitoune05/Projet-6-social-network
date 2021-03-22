@@ -19,7 +19,7 @@
 
                 <b-card id="CardImagePosted" >
                     <!-- image de la publication -->
-                    <img :src="onePublication.imageUrl" class="rounded mx-auto img-fluid "  alt="Responsive image" accept="image/*">
+                    <img :src="onePublication.imageUrl" class="rounded img-fluid d-flex ml-auto mr-auto " alt="Responsive image" accept="image/*">
                 </b-card>
 
                 <b-card-text>
@@ -31,7 +31,7 @@
 
 
             <!-- partie  Liste de commentaires -->
-            <b-card tag="article" class="shadow mt-5" v-for="commentaire in commentaires" :key="commentaire.id" >
+            <b-card tag="article" class="shadow mt-2" v-for="commentaire in commentaires" :key="commentaire.id" >
 
 
                 <template #header>

@@ -9,14 +9,14 @@
                 Pour poster une nouvelle publication  
             </p>   
         
-            <img src="../assets/publication.png" alt="publicationAide">
+            <img src="../assets/publication.png" alt="publicationAide" class="img-fluid">
             
             <hr>
 
             <p class='mt-5'>
                 Pour acceder à votre profil cliquez sur "mon profil"
             </p>
-            <img src="../assets/monprofil.png" alt="monprofil">
+            <img src="../assets/monprofil.png" alt="monprofil" class="img-fluid">
 
             <hr>
 
@@ -29,15 +29,15 @@
             </p>
 
             <div class="">
-                <img src="../assets/modifier.png" alt="modifier">
-                <img src="../assets/deconnecter.png" alt="deconnecter">
-                <img src="../assets/delete.png" alt="delete">
+                <img src="../assets/modifier.png" alt="modifier" class="img-fluid">
+                <img src="../assets/deconnecter.png" alt="deconnecter" class="img-fluid">
+                <img src="../assets/delete.png" alt="delete" class="img-fluid">
             </div>
 
             <p class='mt-5'>
                 Vous pouvez aussi modifier , et supprimer une publication ou un commentaire comme ci-dessous
             </p>
-            <img src="../assets/publicationUpdate.png" alt="profilaide">
+            <img src="../assets/publicationUpdate.png" alt="profilaide" class="img-fluid">
 
             
 

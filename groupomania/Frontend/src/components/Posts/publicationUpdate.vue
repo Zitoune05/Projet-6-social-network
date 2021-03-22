@@ -5,13 +5,13 @@
             <!-- la publication a commenter -->
             <b-card tag="article" class="shadow mt-5" >
 
-                    <div class="headerPost">
-                        <!-- publication username -->
-                        <h2>{{onePublication.User.username}}</h2> 
+                <div class="headerPost">
+                    <!-- publication username -->
+                    <h2>{{onePublication.User.username}}</h2> 
 
-                        <!-- publication créée le... -->
-                        <p >{{onePublication.createdAt.slice(0,10).split('-').reverse().join('/') + ' à ' + onePublication.createdAt.slice(11,16)}}</p>
-                    </div>
+                    <!-- publication créée le... -->
+                    <p >{{onePublication.createdAt.slice(0,10).split('-').reverse().join('/') + ' à ' + onePublication.createdAt.slice(11,16)}}</p>
+                </div>
 
                 <b-card id="CardImagePosted" >
                     <!-- image de la publication -->
@@ -19,7 +19,7 @@
                     
                     <!-- image a modifier -->
                     <div class="mt-3">
-                        <b-form-file v-model="publication.imageUrl" accept="image/*" class="mt-3" @change="uploadImage" id="file-input" plain ></b-form-file>
+                        <b-form-file v-model="publication.imageUrl" accept="image/*" class="mt-3" @change="uploadImage" id="file-input" plain required></b-form-file>
                     </div>
                 </b-card>
 
@@ -37,7 +37,7 @@
                         id="text-password"
                         rows="6"
                         placeholder="Votre message..."
-                        >
+                        required>
                     </textarea>
                 </b-card-text>
                 
@@ -101,7 +101,7 @@ export default {
         deletePublication(){
             axios.delete("http://localhost:3000/api/publications/" + this.$route.params.id, {headers: { Authorization: "Bearer " + localStorage.token }})
             .then(()=> {
-                location.replace("http://localhost:8080/#/profil");
+                location.replace("http://localhost:8080/#/accueil");
             })
             .catch((error) => error)
         },

@@ -80,7 +80,7 @@
     </form>
 
   </b-card>
-</template>
+</template><
 
 <script>
 import axios from 'axios'
