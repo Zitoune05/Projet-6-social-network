@@ -9,7 +9,7 @@
 
                 <!-- logo -- lien vers le mur de publications -->
                 <router-link to="/accueil">
-                    <img id="Logo" alt="logo de l'entreprise" src="../assets/icon-left-font-monochrome-white.svg"  class="img-fluid mw-200"/>
+                    <img id="Logo" alt="logo de l'entreprise" src="../assets/icon-left-font-monochrome-white.svg"  class="img-fluid"/>
                 </router-link>
                 
             </b-navbar-brand>
@@ -125,7 +125,7 @@ export default {
     #ok{
         background-color: red;
     }
-    /* #Logo{
-        width: 900px;
-    } */
+    #Logo{
+        width: 200px;
+    }
 </style>
