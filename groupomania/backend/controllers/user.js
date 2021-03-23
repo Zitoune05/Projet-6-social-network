@@ -43,7 +43,6 @@ exports.login = (req, res, next) => {
     
     let email = req.body.email;
     let password = req.body.password;
-    let TOKEN = process.env.TOKEN;
 
     models.User.findOne({ where: { email: email }})     // Méthode findOne pour trouver l'utilisateur dans la base de donnée correspondant à l'adresse mail envoyé dans la requête 
         .then(user => {
@@ -67,14 +66,15 @@ exports.login = (req, res, next) => {
                     res.status(200).json({                      // Requête validé avec un objet json contenant
                         userId: user.id,                       // L'identifiant de l'utilisateur dans la base de donnée
                         role: this.role,
-                        token: jwt.sign(                        // On génére un token valable pendant 24h
+                        token: jwt.sign(                        // On génére un token 
                             { userId: user.id , role: this.role},
-                                TOKEN,
+                            process.env.TOKEN,
                             { expiresIn: '24h' },
                         ),
                         username: user.username,
                         email: user.email,
                     });
+                    console.log(role)
                 })
                 .catch(() => res.status(500).json({ error : "erreur serveur"}));   //Erreur serveur
             })

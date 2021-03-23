@@ -10,7 +10,7 @@ module.exports = (req, res, next) =>  {
             throw 'User ID invalide !';
         } 
         else {
-            console.log(role,'Passage par middleware auth')
+            console.log(userId,'Passage par middleware auth')
             next();
         }
     } 
