@@ -1,6 +1,6 @@
 # Groupomania
 
-Projet : Créer un réseau social d'entreprise 
+# Projet 6 : Créer un réseau social d'entreprise 
 
 Base de données SQL avec MYSQL.
 
